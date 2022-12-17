@@ -21,8 +21,19 @@ parser = argparse.ArgumentParser(description=__doc__, usage="refresh_database")
 
 if __name__ == "__main__":
 
+    # read arguments
+    parser.add_argument(
+        "-f",
+        dest="gadm_src",
+        metavar="source.gpkg",
+        help="(str) : path to the GADM file",
+        required=False,
+        type=Path,
+    )
+
     # parse agruments
-    parser.parse_args()
+    args = parser.parse_args()
+    # raise Exception(args)
 
     # url of the gadm files
     url = f"https://geodata.ucdavis.edu/gadm/gadm4.1/gadm_{__gadm_version__}-gpkg.zip"
@@ -30,19 +41,31 @@ if __name__ == "__main__":
     # read the all the geodata available in the server at once
     with tempfile.TemporaryDirectory() as tmp_dir:
 
-        # get the file as a simple dataframe
-        zip_file = Path(tmp_dir) / urlparse(url).path.split("/")[-1]
-        response = urlopen(url)
-        pbar = tqdm(total=response.length, unit="iB", unit_scale=True)
-        size = 16 * 1024
-        with open(zip_file, "wb") as f:
-            while True:
-                chunk = response.read(size)
-                pbar.update(size)
-                if not chunk:
-                    break
-                f.write(chunk)
-        gadm_df = gpd.read_file(zip_file, ignore_geometry=True)
+        # check if a download is required
+        if vars(args)["gadm_src"] is not None:
+            file = Path(vars(args)["gadm_src"])
+
+        else:
+            # get the file as a simple dataframe
+            file = Path(tmp_dir) / urlparse(url).path.split("/")[-1]
+            response = urlopen(url)
+            pbar = tqdm(total=response.length, unit="iB", unit_scale=True)
+            size = 16 * 1024
+            with open(file, "wb") as f:
+                while True:
+                    chunk = response.read(size)
+                    pbar.update(size)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+
+        # read the file
+        gadm_df = gpd.read_file(
+            file, layer=f"gadm_{__gadm_version__}", ignore_geometry=True
+        )
+
+    # replace the country column by NAME_0 for coherence
+    gadm_df.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
 
     # filter all columns but the GID and the NAME
     # we are not including the VARNAME to keep the file size under 3Mo

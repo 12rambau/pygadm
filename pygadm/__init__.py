@@ -14,7 +14,7 @@ __gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{}.gpkg"
 __gadm_data__ = Path(__file__).parent / "data" / "gadm_database.bz2"
 
 
-def get_item(
+def get_items(
     name: str = "", admin: str = "", content_level: int = -1
 ) -> gpd.GeoDataFrame:
     """
@@ -45,6 +45,7 @@ def get_item(
     df = pd.read_pickle(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
     is_in = df.filter([column.format(i) for i in range(6)]).isin([id])
+
     if not is_in.any().any():
         raise Exception(f'The requested "{id}" is not part of GADM')
 
@@ -76,6 +77,7 @@ def get_item(
     # read the data from server
     layer_name = f"ADM_ADM_{content_level}"
     level_gdf = gpd.read_file(__gadm_url__.format(iso_3), layer=layer_name)
+    level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
     gdf = level_gdf[level_gdf[column.format(level)] == id]
 
     return gdf
@@ -130,7 +132,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> List[
         )
         content_level = level
 
-    if content_level > max_level:
+    if int(content_level) > max_level:
         warnings.warn(
             f"The requested level ({content_level}) is higher than the max level in this country ({max_level}). Fallback to {max_level}."
         )
