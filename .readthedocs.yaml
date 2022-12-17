@@ -1,0 +1,24 @@
+
+# -- Required ------------------------------------------------------------------
+version: 2
+
+# -- build environment ---------------------------------------------------------
+build:
+  os: ubuntu-20.04
+  tools:
+    python: "3.9"
+  jobs:
+    pre_build:
+      - sphinx-apidoc --force --module-first -o docs/source/_api ./qutree
+
+# -- conf location -------------------------------------------------------------
+sphinx:
+    configuration: docs/source/conf.py
+
+# -- requirements --------------------------------------------------------------
+python:
+  install:
+  - method: pip
+    path: .
+    extra_requirements:
+      - doc

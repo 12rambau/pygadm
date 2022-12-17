@@ -58,6 +58,7 @@ doc = [
     "nox", 
     "nbsphinx", 
     "sphinx-copybutton",
+    "jupyter-sphinx",
 ]
 
 [option.entry_points]
