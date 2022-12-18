@@ -76,4 +76,6 @@ if __name__ == "__main__":
 
     # save it in the data folder
     filename = Path(__file__).parents[1] / "data" / "gadm_database.bz2"
-    gadm_df_filtered.to_pickle(filename)
+
+    # specifying the protocol for compatibility with Python 3.7
+    gadm_df_filtered.to_pickle(filename, protocol=4)
