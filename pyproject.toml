@@ -59,6 +59,7 @@ doc = [
     "nbsphinx", 
     "sphinx-copybutton",
     "jupyter-sphinx",
+    "matplotlib"
 ]
 
 [option.entry_points]
@@ -66,6 +67,7 @@ refresh_database = "pygadm.bin.refresh_database:main"
 
 [tool.setuptools]
 include-package-data = true
+packages = ["pygadm"]
 
 [tool.setuptools.package-data]
 pygadm = ["data/gadm_database.bz2"]
