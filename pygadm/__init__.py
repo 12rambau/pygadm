@@ -11,7 +11,7 @@ __email__ = "pierrick.rambaud49@gmail.com"
 
 __gadm_version__ = "410"  # 4.1
 __gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{}.gpkg"
-__gadm_data__ = Path(__file__).parent / "data" / "gadm_database.bz2"
+__gadm_data__ = Path(__file__).parent / "data" / "gadm_database.parquet"
 
 
 def get_items(
@@ -42,7 +42,7 @@ def get_items(
     id = name if name else admin
 
     # read the data and find if the element exist
-    df = pd.read_pickle(__gadm_data__)
+    df = pd.read_parquet(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
     is_in = df.filter([column.format(i) for i in range(6)]).isin([id])
 
@@ -109,7 +109,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> List[
     id = name if name else admin
 
     # read the data and find if the element exist
-    df = pd.read_pickle(__gadm_data__)
+    df = pd.read_parquet(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
     is_in = df.filter([column.format(i) for i in range(6)]).isin([id])
     if not is_in.any().any():

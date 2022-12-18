@@ -75,7 +75,7 @@ if __name__ == "__main__":
     gadm_df_filtered = gadm_df.filter(items=columns)
 
     # save it in the data folder
-    filename = Path(__file__).parents[1] / "data" / "gadm_database.bz2"
+    filename = Path(__file__).parents[1] / "data" / "gadm_database.parquet"
 
     # specifying the protocol for compatibility with Python 3.7
-    gadm_df_filtered.to_pickle(filename, protocol=4)
+    gadm_df_filtered.to_parquet(filename)
