@@ -71,7 +71,7 @@ include-package-data = true
 packages = ["pygadm"]
 
 [tool.setuptools.package-data]
-pygadm = ["data/gadm_database.bz2"]
+pygadm = ["data/gadm_database.parquet"]
 
 [commitizen]
 changelog_file = "CHANGELOG.md"
