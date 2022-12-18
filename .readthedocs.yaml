@@ -9,7 +9,7 @@ build:
     python: "3.9"
   jobs:
     pre_build:
-      - sphinx-apidoc --force --module-first -o docs/source/_api ./qutree
+      - sphinx-apidoc --force --module-first -o docs/source/_api ./pygadm
 
 # -- conf location -------------------------------------------------------------
 sphinx:
