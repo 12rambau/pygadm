@@ -83,7 +83,7 @@ version_files = ["pyproject.toml:version", "data/__init__.py:__version__"]
 testpaths = "tests"
 
 [tool.coverage.run]
-source = ["pygamd"]
+source = ["pygadm"]
 
 [tool.flake8]
 ignore = [
