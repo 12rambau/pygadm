@@ -35,10 +35,6 @@ jobs:
       - name: test with pytest
         run: pytest --color=yes --cov --cov-report=xml tests
 
-      - name: assess dead fixtures
-        if: matrix.python-version == '3.8'
-        run: pytest --dead-fixtures
-
       - name: coverage
         run: coverage xml
 
