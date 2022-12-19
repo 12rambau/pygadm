@@ -2,16 +2,15 @@
 Configuration file for the Sphinx documentation builder.
 """
 
-# import os
-# import sys
+import os
 
 # -- Path setup ----------------------------------------------------------------
 from datetime import datetime
 
 from pygadm import __author__, __version__  # noqa
 
-# sys.path.insert(0, os.path.abspath("."))
-# sys.path.insert(0, os.path.abspath("../.."))
+package_path = os.path.abspath("../..")
+os.environ["PYTHONPATH"] = ":".join((package_path, os.environ.get("PYTHONPATH", "")))
 
 
 # -- Project information -------------------------------------------------------
@@ -32,6 +31,7 @@ extensions = [
     # https://github.com/spatialaudio/nbsphinx/issues/687
     "IPython.sphinxext.ipython_console_highlighting",
     "jupyter_sphinx",
+    "sphinx_autodoc_typehints",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
@@ -45,6 +45,7 @@ html_css_files = ["custom.css"]
 # -- Options for autosummary/autodoc output ------------------------------------
 autosummary_generate = True
 autoclass_content = "class"
+autodoc_typehints = "description"
 
 # -- Options of the HTML theme -------------------------------------------------
 html_theme_options = {

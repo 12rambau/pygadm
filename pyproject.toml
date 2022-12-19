@@ -60,7 +60,8 @@ doc = [
     "nbsphinx", 
     "sphinx-copybutton",
     "jupyter-sphinx",
-    "matplotlib"
+    "matplotlib",
+    "sphinx-autodoc-typehints",
 ]
 
 [option.entry_points]

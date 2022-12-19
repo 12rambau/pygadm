@@ -23,12 +23,12 @@ def get_items(
     Retrun an Geopandas Dataframe representing a administrative region. The region can be requested either by its "name" or it's "admin", the lib will identify its level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. if Nothing is found the method will return an error.
 
     Args:
-        name (str): The name of a administrative area. cannot be set along with :code:`id`.
-        admin (str): the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
-        content_level (int|optional): the level to use in the final dataset. Default to -1 (use level from the area)
+        name: The name of a administrative area. cannot be set along with :code:`id`.
+        admin: the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
+        content_level: the level to use in the final dataset. Default to -1 (use level from the area)
 
     Returns:
-        (geopandas.GeoDataFrame): the dataframe of the requested area with all the GADM attributes
+        the dataframe of the requested area with all the GADM attributes
     """
 
     # sanitary check on parameters
@@ -90,12 +90,12 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> List[
     Return a list of all the name contained in an administrative region. The region can be requested either by its "name" or it's "admin", the lib will identify its level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. if Nothing is found the method will return an error.
 
     Args:
-        name (str): The name of a administrative area. cannot be set along with :code:`id`.
-        admin (str): the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
-        content_level (int|optional): the level to use in the final dataset. Default to -1 (use level under the area)
+        name: The name of a administrative area. cannot be set along with :code:`id`.
+        admin: the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
+        content_level: the level to use in the final dataset. Default to -1 (use level under the area)
 
     Returns:
-        (list[str]): the list of all the available names
+        the list of all the available names
     """
 
     # sanitary check on parameters
