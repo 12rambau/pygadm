@@ -135,3 +135,6 @@ dmypy.json
 
 # Mac OSX files 
 **/.DS_Store
+
+# files generated from jupyter-sphinx
+jupyter_execute/
