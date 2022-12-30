@@ -39,3 +39,16 @@ def docs_live(session):
         "./pygadm",
     )
     session.run("sphinx-autobuild", "-b", "html", "docs/source", "build")
+
+
+@nox.session(name="mypy", reuse_venv=True)
+def mypy(session):
+    session.install(".[dev]")
+    test_files = session.posargs or ["pygadm"]
+    session.run(
+        "mypy",
+        "--ignore-missing-imports",
+        "--install-types",
+        "--non-interactive",
+        *test_files,
+    )
