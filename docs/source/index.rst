@@ -18,10 +18,9 @@ install it using either ``pip`` or ``conda``:
 
 and then request area of interest from their name or GADM Id: 
 
-.. jupyter-execute:: 
+.. code-block:: 
 
    import pygadm 
 
    gdf = pygadm.get_items(name="Singapore", content_level=1)
-   gdf.plot(cmap = "viridis")
 

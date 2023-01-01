@@ -65,6 +65,8 @@ doc = [
     "sphinx-autodoc-typehints",
     "sphinx-design",
     "ipyleaflet",
+    "earthengine-api",
+    "myst-nb"
 ]
 
 [option.entry_points]
