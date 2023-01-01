@@ -10,11 +10,6 @@ import argparse
 import os
 from pathlib import Path
 
-from colorama import Fore, init
-
-# init colors for all plateforms
-init()
-
 # init parser
 parser = argparse.ArgumentParser(description=__doc__, usage="ee_token")
 
@@ -52,7 +47,7 @@ def main() -> None:
     set_credentials(ee_token)
 
     # display one last message
-    print(f"{Fore.GREEN}The GEE credentials have been set.{Fore.RESET}")
+    print("The GEE credentials have been set.")
 
     return
 
