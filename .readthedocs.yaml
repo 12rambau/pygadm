@@ -10,6 +10,7 @@ build:
   jobs:
     pre_build:
       - sphinx-apidoc --force --module-first -o docs/source/_api ./pygadm
+      - python3 ee_token.py
 
 # -- conf location -------------------------------------------------------------
 sphinx:
