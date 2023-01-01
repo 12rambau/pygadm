@@ -5,8 +5,8 @@ PyGADM
    :hidden:
 
    setup
-   api <_api/modules>
-   examples
+   usage
+   API <_api/modules>
 
 Easy access to administrative boundary defined by GADM from Python scripts
 

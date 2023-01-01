@@ -16,6 +16,7 @@ def test(session):
 @nox.session(reuse_venv=True)
 def docs(session):
     session.install(".[doc]")
+    session.run("rm", "-rf", "build/")
     session.run(
         "sphinx-apidoc",
         "--force",

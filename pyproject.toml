@@ -63,6 +63,8 @@ doc = [
     "jupyter-sphinx",
     "matplotlib",
     "sphinx-autodoc-typehints",
+    "sphinx-design",
+    "ipyleaflet",
 ]
 
 [option.entry_points]

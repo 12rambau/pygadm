@@ -32,6 +32,7 @@ extensions = [
     "IPython.sphinxext.ipython_console_highlighting",
     "jupyter_sphinx",
     "sphinx_autodoc_typehints",
+    "sphinx_design",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.

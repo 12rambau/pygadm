@@ -6,9 +6,19 @@ Stable release
 
 Use pip to install from `Pypi <https://pypi.org/project/pygadm/>`_:
 
-.. code-block:: console
+.. tab-set::
+
+   .. tab-item:: pip
+
+      .. code-block:: console
    
-   pip install pygadm
+         pip install pygadm
+
+   .. tab-item:: conda
+
+      .. code-block:: console
+
+         conda install pygadm
 
 From source
 -----------
