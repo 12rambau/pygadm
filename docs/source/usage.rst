@@ -110,12 +110,16 @@ For example to the the name and codes of all the departments in France you can r
 Google Earth engine
 -------------------
 
+.. note:: 
+
+    We don't display the results of these cells because the GEE authentification is not working in RDT.
+
 Transform gdf into ``ee.FeatureCollection``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to use this lib with GEE, install the "earthengine-api" package in your environment and then run the following code:
 
-.. jupyter-execute::
+.. block-code:: python
 
     import pygadm
     import geemap
@@ -149,7 +153,7 @@ The GADM dataset are describing the geometry of administrative areas in High-res
 
 Use the :code:`simplify` method from GeoPandas (more informations `here <https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.simplify.html>`__) to downscale the resolution of the geometries. The following example is needed if you want to work with France: 
 
-.. jupyter-execute:: 
+.. code-block:: python 
 
     import pygadm
     import geemap
