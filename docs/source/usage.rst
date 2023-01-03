@@ -119,7 +119,7 @@ Transform gdf into ``ee.FeatureCollection``
 
 If you want to use this lib with GEE, install the "earthengine-api" package in your environment and then run the following code:
 
-.. block-code:: python
+.. code-block:: python
 
     import pygadm
     import geemap
