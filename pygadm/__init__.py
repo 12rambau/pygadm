@@ -1,6 +1,5 @@
 import warnings
 from pathlib import Path
-from typing import List
 
 import geopandas as gpd
 import pandas as pd
@@ -83,7 +82,7 @@ def get_items(
     return gdf
 
 
-def get_names(name: str = "", admin: str = "", content_level: int = -1) -> List[str]:
+def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.DataFrame:
     """
     return the list of names available in a administrative layer using the name or the administrative number
 
@@ -138,4 +137,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> List[
         )
         content_level = max_level
 
-    return sub_df[f"NAME_{content_level}"].unique().tolist()
+    # get the columns name to display
+    columns = [f"NAME_{content_level}", f"GID_{content_level}"]
+
+    return sub_df[columns].drop_duplicates(ignore_index=True)

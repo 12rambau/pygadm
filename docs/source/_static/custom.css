@@ -10,7 +10,14 @@
     padding-right: 0.5em;
   }
 
-  /*******************************************************************************
+/*******************************************************************************
+ * custom display of tables in jupyter-sphinx
+ */
+.cell_output .output .dataframe {
+  width: 100%;
+}
+
+/*******************************************************************************
  * Customize the colors of the website
  */
 html[data-theme="light"] {
