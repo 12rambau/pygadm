@@ -15,7 +15,7 @@ os.environ["PYTHONPATH"] = ":".join((package_path, os.environ.get("PYTHONPATH", 
 
 # -- Project information -------------------------------------------------------
 
-project = "pygadm"
+project = "PyGADM"
 copyright = f"2022-{datetime.now().year}, {__author__}"
 author = __author__
 release = __version__
@@ -33,6 +33,7 @@ extensions = [
     "jupyter_sphinx",
     "sphinx_autodoc_typehints",
     "sphinx_design",
+    "sphinx-favicon",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
@@ -51,7 +52,12 @@ autodoc_typehints = "description"
 # -- Options of the HTML theme -------------------------------------------------
 html_theme_options = {
     "use_edit_page_button": True,
-    "show_prev_next": False,
+    "show_prev_next": True,
+    "logo": {
+        "text": project,
+        "image_light": "logo.png",
+        "image_dark": "logo.png",
+    },
     "icon_links": [
         {
             "name": "GitHub",
@@ -71,3 +77,25 @@ html_context = {
     "github_version": "main",
     "doc_path": "docs/source",
 }
+
+favicons = [
+    {
+        "rel": "apple-touch-icon",
+        "size": "180x180",
+        "static-file": "apple-touch-icon.png",
+    },
+    {
+        "rel": "icon",
+        "type": "image/png",
+        "size": "32x32",
+        "static-file": "favicon-32x32.png",
+    },
+    {
+        "rel": "icon",
+        "type": "image/png",
+        "size": "16x16",
+        "static-file": "favicon-16x16.png",
+    },
+    {"rel": "mask-icon", "static-file": "safari-pinned-tab.svg", "color": "#186691"},
+    {"rel": "manifest", "static-file": "/site.webmanifest"},
+]

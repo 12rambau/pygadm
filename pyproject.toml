@@ -55,17 +55,15 @@ test = [
     "nox"
 ]
 doc = [
-    "Sphinx", 
     "pydata-sphinx-theme", 
     "nox", 
-    "nbsphinx", 
     "sphinx-copybutton",
     "jupyter-sphinx",
-    "matplotlib",
     "sphinx-autodoc-typehints",
     "sphinx-design",
     "ipyleaflet",
-    "geemap"
+    "geemap",
+    "sphinx-favicon",
 ]
 
 [option.entry_points]

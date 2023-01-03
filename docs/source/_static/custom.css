@@ -9,3 +9,14 @@
     margin-right: 0.5em;
     padding-right: 0.5em;
   }
+
+  /*******************************************************************************
+ * Customize the colors of the website
+ */
+html[data-theme="light"] {
+  --pst-color-primary: #ec880e;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #ec880e;
+}

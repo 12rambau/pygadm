@@ -4,7 +4,7 @@ Installation
 Stable release 
 --------------
 
-Use pip to install from `Pypi <https://pypi.org/project/pygadm/>`_:
+install it using either ``pip`` or ``conda``:
 
 .. tab-set::
 
