@@ -5,13 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pygadm"
 version = "0.0.0"
-#licence-file = "LICENSE"
 description = "Easy access to administrative boundary defined by GADM from Python scripts"
 keywords = ["Python"]
 classifiers = [
     "Development Status :: 1 - Planning", 
     "Intended Audience :: Developers", 
-    "License :: OSI Approved :: MIT", 
+    "License :: OSI Approved :: MIT License", 
     "Programming Language :: Python :: 3.7", 
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -72,6 +71,7 @@ refresh_database = "pygadm.bin.refresh_database:main"
 [tool.setuptools]
 include-package-data = true
 packages = ["pygadm"]
+license-files = ["LICENSE"]
 
 [tool.setuptools.package-data]
 pygadm = ["data/gadm_database.parquet"]
