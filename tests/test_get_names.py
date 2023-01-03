@@ -31,32 +31,32 @@ def test_area():
 
     # request an area
     sublevels = ["Central", "East", "North", "North-East", "West"]
-    list_ = pygadm.get_names(name="Singapore")
-    assert sorted(list_) == sublevels
+    df = pygadm.get_names(name="Singapore")
+    assert sorted(df.NAME_1.to_list()) == sublevels
 
 
 def test_sub_content():
 
     # request a sublevel
     sublevels = ["Central", "East", "North", "North-East", "West"]
-    list_ = pygadm.get_names(name="Singapore", content_level=1)
-    assert len(list_) == 5
-    assert sorted(list_) == sublevels
+    df = pygadm.get_names(name="Singapore", content_level=1)
+    assert len(df) == 5
+    assert sorted(df.NAME_1.to_list()) == sublevels
 
 
 def test_too_high():
 
     # request a too high level
     with pytest.warns(UserWarning):
-        list_ = pygadm.get_names(admin="SGP.1_1", content_level=0)
-        assert len(list_) == 1
-        assert list_ == ["Central"]
+        df = pygadm.get_names(admin="SGP.1_1", content_level=0)
+        assert len(df) == 1
+        assert df.NAME_1.to_list() == ["Central"]
 
 
 def test_too_low():
 
     # request a level too low
     with pytest.warns(UserWarning):
-        list_ = pygadm.get_names(admin="SGP.1_1", content_level=3)
-        assert len(list_) == 1
-        assert list_ == ["Central"]
+        df = pygadm.get_names(admin="SGP.1_1", content_level=3)
+        assert len(df) == 1
+        assert df.NAME_1.to_list() == ["Central"]
