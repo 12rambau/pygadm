@@ -26,10 +26,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "nbsphinx",
     "sphinx_copybutton",
-    # https://github.com/spatialaudio/nbsphinx/issues/687
-    "IPython.sphinxext.ipython_console_highlighting",
     "jupyter_sphinx",
     "sphinx_autodoc_typehints",
     "sphinx_design",
