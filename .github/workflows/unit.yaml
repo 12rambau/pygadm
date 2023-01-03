@@ -38,8 +38,9 @@ jobs:
         run: pytest --color=yes --cov --cov-report=xml tests
 
       - name: mypy checks
-        run: pip3 install mypy
-        run: mypy --ignore-missing-imports --install-types --non-interactive pygadm
+        run: |
+          pip3 install mypy
+          mypy --ignore-missing-imports --install-types --non-interactive pygadm
 
       - name: coverage
         run: coverage xml
