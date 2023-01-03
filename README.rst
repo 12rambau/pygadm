@@ -9,9 +9,17 @@ PyGADM
     :target: https://opensource.org/licenses/MIT
     :alt: License: MIT
 
-.. image:: https://github.com/12rambau/pygadm/actions/workflows/unit.yml/badge.svg
-    :target: https://github.com/12rambau/pygadm/actions/workflows/unit.yml
-    :alt: Build
+.. image:: https://img.shields.io/pypi/v/pygadm?logo=python&logoColor=white
+   :target: https://pypi.org/project/pygadm/
+   :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/pygadm?label=version&logo=python&logoColor=white
+   :target: https://pypi.org/project/pygadm/
+   :alt: PyPI - Python Version
+
+.. image:: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml/badge.svg?branch=main
+   :target: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml
+   :alt: Build
 
 .. image:: https://api.codeclimate.com/v1/badges/0b52bd4ca56ded02c96f/maintainability
    :target: https://codeclimate.com/github/12rambau/pygadm/maintainability
