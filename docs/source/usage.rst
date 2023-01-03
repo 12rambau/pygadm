@@ -110,6 +110,9 @@ For example to the the name and codes of all the departments in France you can r
 Google Earth engine
 -------------------
 
+Transform gdf into ``ee.FeatureCollection``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 If you want to use this lib with GEE, install the "earthengine-api" package in your environment and then run the following code:
 
 .. jupyter-execute::
@@ -117,16 +120,61 @@ If you want to use this lib with GEE, install the "earthengine-api" package in y
     import pygadm
     import geemap
     import ee 
+    from ipyleaflet import basemaps, ZoomControl
 
     ee.Initialize()
 
     gdf = pygadm.get_items(name="Corse-du-Sud")
+
+    # transform into an ee.FeatureCollection
     fc = ee.FeatureCollection(gdf.__geo_interface__)
 
     # in this example we use geemap to display the geometry on the map
-    #m = geemap.Map(zoom=5, center=[46.21, 2.21])
-    #m.addLayer(fc, {"color": "red"}, "FRA")
-    #
-    #m
+    # the map is customized to have the same look & feel as the rest of the documentation
+    m = geemap.Map(scroll_wheel_zoom=False, center=[41.86, 8.97], zoom=8, basemap=basemaps.Esri.WorldImagery)
+    m.clear_controls()
+    m.add(ZoomControl())
+    m.addLayer(fc, {"color": "red"}, "FRA")
+
+    m
+
+Simplify geometry
+^^^^^^^^^^^^^^^^^
+
+The GADM dataset are describing the geometry of administrative areas in High-resolution. This may overload the authorized importation limits of earthengine which will lead to the following error: 
+
+.. code-block:: console
+
+    EEException: Request payload size exceeds the limit: 10485760 bytes.
+
+Use the :code:`simplify` method from GeoPandas (more informations `here <https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.simplify.html>`__) to downscale the resolution of the geometries. The following example is needed if you want to work with France: 
+
+.. jupyter-execute:: 
+
+    import pygadm
+    import geemap
+    import ee 
+    from ipyleaflet import basemaps, ZoomControl
+
+    ee.Initialize()
+
+    gdf = pygadm.get_items(name="France")
+
+    # reduce resolution
+    gdf.geometry = gdf.geometry.simplify(tolerance=.001)
+
+    # transform into an ee.FeatureCollection
+    fc = ee.FeatureCollection(gdf.__geo_interface__)
+
+    # in this example we use geemap to display the geometry on the map
+    # the map is customized to have the same look & feel as the rest of the documentation
+    m = geemap.Map(scroll_wheel_zoom=False, center=[46.21, 2.21], zoom=5, basemap=basemaps.Esri.WorldImagery)
+    m.clear_controls()
+    m.add(ZoomControl())
+    m.addLayer(fc, {"color": "red"}, "FRA")
+
+    m
+
+
 
 
