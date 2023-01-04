@@ -10,7 +10,7 @@ def lint(session):
 @nox.session(python=["3.7", "3.8", "3.9"])
 def test(session):
     session.install(".[test]")
-    session.run("pytest", "--color=yes", "tests")
+    session.run("pytest", "--color=yes", "--cov", "--cov-report=html", "tests")
 
 
 @nox.session(reuse_venv=True)
