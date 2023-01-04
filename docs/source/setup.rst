@@ -32,6 +32,8 @@ The source of ``pygadm`` can be installed from the `GitHub repo <https://github.
 local development
 -----------------
 
+For local development, don't forget to install the pre-commit hooks before making changes. These hooks are tested in the CI.
+
 .. code-block:: console
 
    git clone https://github.com/12rambau/pygadm.git
