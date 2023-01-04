@@ -6,7 +6,7 @@ Get items
 
 The PyGADM lib can be used to extract information from the GADM dataset as GeoPandas :code:`GeoDataFrame`.
 
-countries
+Countries
 ^^^^^^^^^
 
 Using the :code:`get_items` methods, you can access an administrative area using either its name or its GADM identification code. 
@@ -48,7 +48,7 @@ If you know the code of the area you try to use, you can use the GADM code inste
 
     m
 
-smaller admin levels
+Smaller admin levels
 ^^^^^^^^^^^^^^^^^^^^
 
 One is not bind to only request a country, any level can be accesed using both names and/or GADM code. 
@@ -71,12 +71,12 @@ One is not bind to only request a country, any level can be accesed using both n
 
 .. warning::
 
-    The names of countries are all unique but not the smaller administrative layer. If you request a small area using name, make sure it's the one you are looking for before running your workflow. If it's not the case, use the :code:`get_names` method to get the admin assosciated names.
+    The names of countries are all unique but not the smaller administrative layers. If you request a small area using name, make sure it's the one you are looking for before running your workflow. If it's not the case, use the :code:`get_names` method to get the administrative code assosciated to the requested names, they are all unique.
 
-content of an admin layer
+Content of an admin layer
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-using the :code:`content_level` option, one can require smaller administrative layer than the one setup in the name. For example when you request France, by setting up the :code:`content_level` option to 2, the geodataframe will include all the department geometries.
+Using the :code:`content_level` option, one can require smaller administrative layer than the one setup in the name. For example when you request France, by setting up the :code:`content_level` option to 2, the geodataframe will include all the department geometries.
 
 .. jupyter-execute:: 
 
@@ -94,12 +94,12 @@ using the :code:`content_level` option, one can require smaller administrative l
 
     m
 
-find names
+Find names
 ----------
 
 To get the available name and GADM code in a administrative layer you can use the :code:`get_names` method with the same parameters. Use then these names in a :code:`get_items` request to get the geometry.
 
-For example to the the name and codes of all the departments in France you can run: 
+For example to get the name and codes of all the departments in France you can run: 
 
 .. jupyter-execute:: 
 
@@ -145,7 +145,7 @@ If you want to use this lib with GEE, install the "earthengine-api" package in y
 Simplify geometry
 ^^^^^^^^^^^^^^^^^
 
-The GADM dataset are describing the geometry of administrative areas in High-resolution. This may overload the authorized importation limits of earthengine which will lead to the following error: 
+The GADM dataset are describing the geometry of administrative areas in high-resolution. This may overload the authorized importation limits of earthengine which will lead to the following error: 
 
 .. code-block:: console
 
