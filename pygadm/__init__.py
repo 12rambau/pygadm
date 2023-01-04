@@ -17,17 +17,17 @@ def get_items(
     name: str = "", admin: str = "", content_level: int = -1
 ) -> gpd.GeoDataFrame:
     """
-    return the requested administrative boundary using the name or the administrative number
+    Return the requested administrative boundaries using the name or the administrative code
 
-    Retrun an Geopandas Dataframe representing a administrative region. The region can be requested either by its "name" or it's "admin", the lib will identify its level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. if Nothing is found the method will return an error.
+    Return a Geopandas GeoDataFrame representing an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the area level on the fly. The user can also request for a specific level for the GeoDataFrame features e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
     Args:
-        name: The name of a administrative area. cannot be set along with :code:`id`.
-        admin: the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
-        content_level: the level to use in the final dataset. Default to -1 (use level from the area)
+        name: The name of an administrative area. Cannot be set along with :code:`admin`.
+        admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`.
+        content_level: The level to use in the final dataset. Default to -1 (use level from the area).
 
     Returns:
-        the dataframe of the requested area with all the GADM attributes
+        The GeoDataFrame of the requested area with all the GADM attributes.
     """
 
     # sanitary check on parameters
@@ -84,17 +84,17 @@ def get_items(
 
 def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.DataFrame:
     """
-    return the list of names available in a administrative layer using the name or the administrative number
+    Return the list of names available in a administrative layer using the name or the administrative code
 
-    Return a list of all the name contained in an administrative region. The region can be requested either by its "name" or it's "admin", the lib will identify its level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. if Nothing is found the method will return an error.
+    Return a pandas DataFrame of all the name contained in an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the coresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
     Args:
-        name: The name of a administrative area. cannot be set along with :code:`id`.
-        admin: the id of an administrative area in the GADM nomenclature. cannot be set along with :code:`name`.
-        content_level: the level to use in the final dataset. Default to -1 (use level under the area)
+        name: The name of a administrative area. Cannot be set along with :code:`admin`.
+        admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`.
+        content_level: The level to use in the final dataset. Default to -1 (use level under the area).
 
     Returns:
-        the list of all the available names
+        The list of all the available names.
     """
 
     # sanitary check on parameters
