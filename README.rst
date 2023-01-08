@@ -1,7 +1,7 @@
 PyGADM
 ======
 
-.. image:: https://readthedocs.org/projects/pygadm/badge/?version=latest
+.. image:: https://img.shields.io/readthedocs/pygadm?logo=readthedocs&logoColor=white
     :target: https://pygadm.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
     
@@ -17,15 +17,15 @@ PyGADM
    :target: https://pypi.org/project/pygadm/
    :alt: PyPI - Python Version
 
-.. image:: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml/badge.svg?branch=main
+.. image:: https://img.shields.io/github/actions/workflow/status/12rambau/pygadm/unit.yaml?logo=github&logoColor=white
    :target: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml
    :alt: Build
 
-.. image:: https://api.codeclimate.com/v1/badges/0b52bd4ca56ded02c96f/maintainability
+.. image:: https://img.shields.io/codeclimate/maintainability/12rambau/pygadm?logo=codeclimate&logoColor=white
    :target: https://codeclimate.com/github/12rambau/pygadm/maintainability
    :alt: Maintainability
 
-.. image:: https://codecov.io/gh/12rambau/pygadm/branch/main/graph/badge.svg?token=O6ksUUazr4 
+.. image:: https://img.shields.io/codecov/c/github/12rambau/pygadm?label=codecov&logo=codecov&logoColor=white&token=O6ksUUazr4
    :target: https://codecov.io/gh/12rambau/pygadm
    :alt: Coverage
     
