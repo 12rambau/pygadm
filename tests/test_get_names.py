@@ -21,10 +21,10 @@ def test_nono_existing():
 
     # request non-existing area
     with pytest.raises(Exception):
-        pygadm.get_names(name="toto")
+        pygadm.get_names(name="t0t0")
 
     with pytest.raises(Exception):
-        pygadm.get_names(admin="toto")
+        pygadm.get_names(admin="t0t0")
 
 
 def test_area():
