@@ -21,12 +21,8 @@ For exemple to extract the France geometry you can use the following code:
     gdf = pygadm.get_items(name="France")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
-    
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
@@ -40,11 +36,8 @@ If you know the code of the area you try to use, you can use the GADM code inste
     gdf = pygadm.get_items(admin="FRA")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
@@ -61,17 +54,51 @@ One is not bind to only request a country, any level can be accesed using both n
     gdf = pygadm.get_items(name="Corse-du-Sud")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery, zoom=8, center=[41.86, 8.97])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
+
+Duplication issue
+^^^^^^^^^^^^^^^^^
 
 .. warning::
 
     The names of countries are all unique but not the smaller administrative layers. If you request a small area using name, make sure it's the one you are looking for before running your workflow. If it's not the case, use the :code:`get_names` method to get the administrative code assosciated to the requested names, they are all unique.
+
+Let's demonstrate this behavior with the "Central" province of Singapore. First we try to load it using its name. It should return an error:  
+
+.. jupyter-execute::
+    :raises: ValueError 
+
+    import pygadm
+
+    gdf = pygadm.get_items(name="Central")
+
+As I don't know the GADM code I copy/paste the suggested code from the error message and filter it by `country ISO alpha-3 code <https://www.iban.com/country-codes>`__. the ISO code is always displayed in the second column of the :code:`get_names` output. All GADM code start with the country ISO code so you can use the provided cell for any admin level. 
+
+.. jupyter-execute::
+
+    import pygadm 
+
+    df = pygadm.get_names(name="Central")
+    df = df[df.iloc[:,1].str.startswith("SGP")]
+    df
+
+I now know that the code is "SGP.1_1" for the Central province so I can run my initial code again with the unique :code:`admin` parameter: 
+
+.. jupyter-execute:: 
+
+    import pygadm 
+    from ipyleaflet import GeoJSON, Map, basemaps
+
+    gdf = pygadm.get_items(admin="SGP.1_1")
+
+    # display it in a map 
+    m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=11, center=[1.29, 103.83])
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
+
+    m 
 
 Content of an admin layer
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,11 +113,8 @@ Using the :code:`content_level` option, one can require smaller administrative l
     gdf = pygadm.get_items(admin="FRA", content_level=2)
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 

@@ -21,18 +21,18 @@ def test_nono_existing():
 
     # request non-existing area
     with pytest.raises(Exception):
-        pygadm.get_names(name="toto")
+        pygadm.get_names(name="t0t0")
 
     with pytest.raises(Exception):
-        pygadm.get_names(admin="toto")
+        pygadm.get_names(admin="t0t0")
 
 
 def test_area():
 
     # request an area
-    sublevels = ["Central", "East", "North", "North-East", "West"]
+    sublevels = ["Singapore"]
     df = pygadm.get_names(name="Singapore")
-    assert sorted(df.NAME_1.to_list()) == sublevels
+    assert sorted(df.NAME_0.to_list()) == sublevels
 
 
 def test_sub_content():
@@ -60,3 +60,11 @@ def test_too_low():
         df = pygadm.get_names(admin="SGP.1_1", content_level=3)
         assert len(df) == 1
         assert df.NAME_1.to_list() == ["Central"]
+
+
+def test_case_insensitive():
+
+    df1 = pygadm.get_names(name="Singapore")
+    df2 = pygadm.get_names(name="singaPORE")
+
+    assert df1.equals(df2)
