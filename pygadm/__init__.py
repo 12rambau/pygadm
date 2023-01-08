@@ -9,7 +9,7 @@ __author__ = "Pierrick Rambaud"
 __email__ = "pierrick.rambaud49@gmail.com"
 
 __gadm_version__ = "410"  # 4.1
-__gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{}.gpkg"
+__gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{}_{}.json"
 __gadm_data__ = Path(__file__).parent / "data" / "gadm_database.parquet"
 
 
@@ -74,8 +74,7 @@ def get_items(
         content_level = max_level
 
     # read the data from server
-    layer_name = f"ADM_ADM_{content_level}"
-    level_gdf = gpd.read_file(__gadm_url__.format(iso_3), layer=layer_name)
+    level_gdf = gpd.read_file(__gadm_url__.format(iso_3, content_level))
     level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
     gdf = level_gdf[level_gdf[column.format(level)] == id]
 
