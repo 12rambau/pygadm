@@ -78,4 +78,4 @@ if __name__ == "__main__":
     filename = Path(__file__).parents[1] / "data" / "gadm_database.parquet"
 
     # specifying the protocol for compatibility with Python 3.7
-    gadm_df_filtered.to_parquet(filename)
+    gadm_df_filtered.to_parquet(filename, compression="Brotli")
