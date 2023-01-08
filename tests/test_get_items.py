@@ -32,12 +32,7 @@ def test_non_existing():
 def test_area():
 
     # request an area
-    bounds = [
-        103.60905500000018,
-        1.1663900010000248,
-        104.08580000000006,
-        1.471388000000104,
-    ]
+    bounds = [103.6091, 1.1664, 104.0858, 1.4714]
     gdf = pygadm.get_items(name="Singapore")
     assert gdf.loc[0]["GID_0"] == "SGP"
     assert all([math.isclose(b, t) for b, t in zip(gdf.total_bounds.tolist(), bounds)])
