@@ -30,9 +30,9 @@ def test_nono_existing():
 def test_area():
 
     # request an area
-    sublevels = ["Central", "East", "North", "North-East", "West"]
+    sublevels = ["Singapore"]
     df = pygadm.get_names(name="Singapore")
-    assert sorted(df.NAME_1.to_list()) == sublevels
+    assert sorted(df.NAME_0.to_list()) == sublevels
 
 
 def test_sub_content():

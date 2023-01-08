@@ -90,12 +90,12 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     """
     Return the list of names available in a administrative layer using the name or the administrative code
 
-    Return a pandas DataFrame of all the name contained in an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the coresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
+    Return a pandas DataFrame of the names ad GADM code of an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the coresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
     Args:
         name: The name of a administrative area. Cannot be set along with :code:`admin`.
         admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`.
-        content_level: The level to use in the final dataset. Default to -1 (use level under the area).
+        content_level: The level to use in the final dataset. Default to -1 (use level of the selected area).
 
     Returns:
         The list of all the available names.
@@ -133,7 +133,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
 
     # get the request level from user
     if content_level == -1:
-        content_level = int(level) + 1
+        content_level = level
     elif content_level < int(level):
         warnings.warn(
             f"The requested level ({content_level}) is higher than the area ({level}). Fallback to {level}."
