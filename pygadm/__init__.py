@@ -9,7 +9,7 @@ __author__ = "Pierrick Rambaud"
 __email__ = "pierrick.rambaud49@gmail.com"
 
 __gadm_version__ = "410"  # 4.1
-__gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{}_{}.json"
+__gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_{}_{}.json"
 __gadm_data__ = Path(__file__).parent / "data" / "gadm_database.parquet"
 
 
