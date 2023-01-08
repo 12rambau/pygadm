@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygadm"
-version = "0.0.0"
+version = "0.1.0"
 description = "Easy access to administrative boundary defined by GADM from Python scripts"
 keywords = ["Python"]
 classifiers = [
@@ -76,12 +76,12 @@ license-files = ["LICENSE"]
 [tool.setuptools.package-data]
 pygadm = ["data/gadm_database.parquet"]
 
-[commitizen]
+[tool.commitizen]
 changelog_file = "CHANGELOG.md"
 tag_format = "$major.$minor.$patch$prerelease"
 update_changelog_on_bump = true
-version = "0.0.0"
-version_files = ["pyproject.toml:version", "data/__init__.py:__version__"]
+version = "0.1.0"
+version_files = ["pyproject.toml:version", "pygadm/__init__.py:__version__"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
