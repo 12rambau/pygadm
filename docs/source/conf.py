@@ -27,7 +27,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
-    "sphinx_autodoc_typehints",
     "sphinx_design",
     "sphinx-favicon",
     "jupyter_sphinx",
@@ -96,3 +95,8 @@ favicons = [
     {"rel": "mask-icon", "static-file": "safari-pinned-tab.svg", "color": "#186691"},
     {"rel": "manifest", "static-file": "/site.webmanifest"},
 ]
+
+# -- Options for autosummary/autodoc output ------------------------------------
+autosummary_generate = True
+autoclass_content = "init"
+autodoc_typehints = "description"

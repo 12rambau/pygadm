@@ -58,7 +58,6 @@ doc = [
     "nox", 
     "sphinx-copybutton",
     "jupyter-sphinx",
-    "sphinx-autodoc-typehints",
     "sphinx-design",
     "ipyleaflet",
     "geemap",
