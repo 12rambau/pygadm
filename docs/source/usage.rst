@@ -21,12 +21,8 @@ For exemple to extract the France geometry you can use the following code:
     gdf = pygadm.get_items(name="France")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
-    
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
@@ -40,11 +36,8 @@ If you know the code of the area you try to use, you can use the GADM code inste
     gdf = pygadm.get_items(admin="FRA")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
@@ -61,11 +54,8 @@ One is not bind to only request a country, any level can be accesed using both n
     gdf = pygadm.get_items(name="Corse-du-Sud")
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery, zoom=8, center=[41.86, 8.97])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
@@ -123,11 +113,8 @@ Using the :code:`content_level` option, one can require smaller administrative l
     gdf = pygadm.get_items(admin="FRA", content_level=2)
 
     # display it in a map 
-    data = gdf.__geo_interface__
-    style = {"color": "red", "fillOpacity": .4}
-
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
-    m.add(GeoJSON(data=gdf.__geo_interface__, style=style))
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
 
