@@ -26,6 +26,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "sphinx.ext.autosectionlabel",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx-favicon",
@@ -100,3 +101,6 @@ favicons = [
 autosummary_generate = True
 autoclass_content = "init"
 autodoc_typehints = "description"
+
+# -- Options for autosectionlabel ----------------------------------------------
+autosectionlabel_prefix_document = True
