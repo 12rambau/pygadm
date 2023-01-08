@@ -43,7 +43,11 @@ def get_items(
     # read the data and find if the element exist
     df = pd.read_parquet(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
-    is_in = df.filter([column.format(i) for i in range(6)]).isin([id])
+    is_in = (
+        df.filter([column.format(i) for i in range(6)])
+        .apply(lambda col: col.str.lower())
+        .isin([id.lower()])
+    )
 
     if not is_in.any().any():
         raise Exception(f'The requested "{id}" is not part of GADM')
@@ -55,7 +59,7 @@ def get_items(
     iso_3 = df.loc[index, "GID_0"].array[0]
 
     # load the max_level available in the requested area
-    sub_df = df[df[column.format(level)] == id]
+    sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
     max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
 
     # get the request level from user
@@ -77,7 +81,7 @@ def get_items(
     layer_name = f"ADM_ADM_{content_level}"
     level_gdf = gpd.read_file(__gadm_url__.format(iso_3), layer=layer_name)
     level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
-    gdf = level_gdf[level_gdf[column.format(level)] == id]
+    gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
 
     return gdf
 
@@ -110,7 +114,12 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     # read the data and find if the element exist
     df = pd.read_parquet(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
-    is_in = df.filter([column.format(i) for i in range(6)]).isin([id])
+    is_in = (
+        df.filter([column.format(i) for i in range(6)])
+        .apply(lambda col: col.str.lower())
+        .isin([id.lower()])
+    )
+
     if not is_in.any().any():
         raise Exception(f'The requested "{id}" is not part of GADM')
 
@@ -119,7 +128,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     level = line.iloc[0][5 if is_name else 4]  # GID_ or NAME_
 
     # load the max_level available in the requested area
-    sub_df = df[df[column.format(level)] == id]
+    sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
     max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
 
     # get the request level from user

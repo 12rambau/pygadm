@@ -69,3 +69,11 @@ def test_too_low():
         gdf = pygadm.get_items(admin="SGP.1_1", content_level=3)
         assert len(gdf) == 1
         assert gdf.loc[0]["GID_1"] == "SGP.1_1"
+
+
+def test_case_insensitive():
+
+    gdf1 = pygadm.get_items(name="Singapore")
+    gdf2 = pygadm.get_items(name="singaPORE")
+
+    assert gdf1.equals(gdf2)

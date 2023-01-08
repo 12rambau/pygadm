@@ -60,3 +60,11 @@ def test_too_low():
         df = pygadm.get_names(admin="SGP.1_1", content_level=3)
         assert len(df) == 1
         assert df.NAME_1.to_list() == ["Central"]
+
+
+def test_case_insensitive():
+
+    df1 = pygadm.get_names(name="Singapore")
+    df2 = pygadm.get_names(name="singaPORE")
+
+    assert df1.equals(df2)
