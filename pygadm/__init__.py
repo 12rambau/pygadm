@@ -30,52 +30,22 @@ def get_items(
         The GeoDataFrame of the requested area with all the GADM attributes.
     """
 
-    # sanitary check on parameters
-    if name and admin:
-        raise ValueError('"name" and "id" cannot be set at the same time.')
-    elif not name and not admin:
-        raise ValueError('at least "name" or "id" need to be set.')
+    # call to get_names without level to raise an error if the requested level won't work
+    df = get_names(name, admin)
+    if len(df) > 1:
+        raise ValueError(
+            f'The requested name ("{name}") is not unique ({len(df)} results). To retreive it, please use the `admin` parameter instead. If you don\'t know the GADM code, use the following code, it will return the GADM codes as well:\n`get_names(name="{name}")`'
+        )
+    level = df.columns[0].replace("NAME_", "")
+    iso_3 = df.iloc[0][f"GID_{level}"][:3]
 
-    # set the id we look for and tell the function if its a name or an admin
-    is_name = True if name else False
+    # now load the usefull one to get content_level
+    df = get_names(name, admin, content_level)
+    content_level = df.columns[0].replace("NAME_", "")
+
+    # checks have already been performed in get_names
+    column = "NAME_{}" if name else "GID_{}"
     id = name if name else admin
-
-    # read the data and find if the element exist
-    df = pd.read_parquet(__gadm_data__)
-    column = "NAME_{}" if is_name else "GID_{}"
-    is_in = (
-        df.filter([column.format(i) for i in range(6)])
-        .apply(lambda col: col.str.lower())
-        .isin([id.lower()])
-    )
-
-    if not is_in.any().any():
-        raise Exception(f'The requested "{id}" is not part of GADM')
-
-    # Get the iso_3 of the associated country of the identifed area and the associated level
-    line = is_in[~((~is_in).all(axis=1))].idxmax(1)
-    index = line.index
-    level = line.iloc[0][5 if is_name else 4]  # GID_ or NAME_
-    iso_3 = df.loc[index, "GID_0"].array[0]
-
-    # load the max_level available in the requested area
-    sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
-    max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
-
-    # get the request level from user
-    if content_level == -1:
-        content_level = level
-    elif content_level < int(level):
-        warnings.warn(
-            f"The requested level ({content_level}) is higher than the area ({level}). Fallback to {level}."
-        )
-        content_level = level
-
-    if int(content_level) > max_level:
-        warnings.warn(
-            f"The requested level ({content_level}) is higher than the max level in this country ({max_level}). Fallback to {max_level}."
-        )
-        content_level = max_level
 
     # read the data from server
     layer_name = f"ADM_ADM_{content_level}"
