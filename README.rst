@@ -2,7 +2,7 @@ PyGADM
 ======
 
 .. image:: https://img.shields.io/readthedocs/pygadm?logo=readthedocs&logoColor=white
-    :target: https://pygadm.readthedocs.io/en/latest/?badge=latest
+    :target: https://pygadm.readthedocs.io/en/stable
     :alt: Documentation Status
     
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
