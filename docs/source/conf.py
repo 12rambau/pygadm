@@ -27,10 +27,10 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
-    "jupyter_sphinx",
     "sphinx_autodoc_typehints",
     "sphinx_design",
     "sphinx-favicon",
+    "jupyter_sphinx",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
