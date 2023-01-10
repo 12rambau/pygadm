@@ -40,7 +40,9 @@ def main() -> None:
     print("Creating credentials for your build environment\n\n")
 
     # check if the environment variable is available
-    ee_token = os.environ["EE_TOKEN"]
+    ee_token = os.environ.get("EE_TOKEN")
+    if ee_token is None:
+        return
 
     # create the file
     set_credentials(ee_token)
