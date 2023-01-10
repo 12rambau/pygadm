@@ -21,7 +21,6 @@ def set_credentials(ee_token: str) -> None:
     Args:
         ee_token: the str representation of existing GEE credentials
     """
-
     # write them in the appropriate file
     credential_folder_path = Path.home() / ".config" / "earthengine"
     credential_folder_path.mkdir(parents=True, exist_ok=True)
@@ -33,7 +32,7 @@ def set_credentials(ee_token: str) -> None:
 
 
 def main() -> None:
-
+    """Launch the process."""
     # read arguments (there should be none)
     parser.parse_args()
 

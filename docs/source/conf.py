@@ -1,13 +1,11 @@
-"""
-Configuration file for the Sphinx documentation builder.
-"""
+"""Configuration file for the Sphinx documentation builder."""
 
 import os
 
 # -- Path setup ----------------------------------------------------------------
 from datetime import datetime
 
-from pygadm import __author__, __version__  # noqa
+from pygadm import __author__, __version__
 
 package_path = os.path.abspath("../..")
 os.environ["PYTHONPATH"] = ":".join((package_path, os.environ.get("PYTHONPATH", "")))

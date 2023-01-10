@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Script to manually update the database of GADM
+Script to manually update the database of GADM.
 
 When GADM is releasing a new version the table should be updated to make sure that the names are still available in list and that new one are included. It is only meant to be executed by maintainer, Any PR included unwanted modifications to the database will be refused.
 """
