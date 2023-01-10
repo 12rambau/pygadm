@@ -1,3 +1,11 @@
+"""
+Easy access to administrative boundary defined by GADM from Python scripts.
+
+This lib provides access to GADM datasets from a Python script without downloading the file from their server. We provide access to The current version (4.1.) which delimits 400,276 administrative areas.
+
+The data are freely available for academic use and other non-commercial use. Redistribution, or commercial use is not allowed without prior permission. See the license of the GADM project for more details.
+"""
+
 import warnings
 from pathlib import Path
 
@@ -17,7 +25,7 @@ def get_items(
     name: str = "", admin: str = "", content_level: int = -1
 ) -> gpd.GeoDataFrame:
     """
-    Return the requested administrative boundaries using the name or the administrative code
+    Return the requested administrative boundaries using the name or the administrative code.
 
     Return a Geopandas GeoDataFrame representing an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the area level on the fly. The user can also request for a specific level for the GeoDataFrame features e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
@@ -29,7 +37,6 @@ def get_items(
     Returns:
         The GeoDataFrame of the requested area with all the GADM attributes.
     """
-
     # call to get_names without level to raise an error if the requested level won't work
     df = get_names(name, admin)
     if len(df) > 1:
@@ -57,7 +64,7 @@ def get_items(
 
 def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.DataFrame:
     """
-    Return the list of names available in a administrative layer using the name or the administrative code
+    Return the list of names available in a administrative layer using the name or the administrative code.
 
     Return a pandas DataFrame of the names ad GADM code of an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the coresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
@@ -69,7 +76,6 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     Returns:
         The list of all the available names.
     """
-
     # sanitary check on parameters
     if name and admin:
         raise ValueError('"name" and "id" cannot be set at the same time.')

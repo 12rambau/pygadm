@@ -88,15 +88,18 @@ testpaths = "tests"
 [tool.coverage.run]
 source = ["pygadm"]
 
-[tool.flake8]
+[tool.ruff]
+fix = true
+select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = [
-    "E501", # line too long | Black take care of it
-    "W605", # line break before binary operator | Black take care of it
-    "W503", # invalid escape sequence | we escape specific characters for sphinx
-    "E203", # white space before : | Black is in charge
+    "E501",  # line too long | Black take care of it
+    "W605",  # invalid escape sequence | we escape specific characters for sphinx
+    "D212", # Multi-line docstring | we use a different convention, too late
 ]
+exclude = ["setup.py"]
 
-[tool.isort]
-profile = "black"
-skip_glob = ["**/.ipynb_checkpoints/*", "**__pycache__/*"]
-src_paths = "pygadm"
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.pydocstyle]
+convention = "google"
