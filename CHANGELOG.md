@@ -1,3 +1,11 @@
+## 0.1.1 (2023-01-10)
+
+### Refactor
+
+- use ruff replace isort and flake8
+- remove .DS_Store legacy mac file
+- use brotli compression for database
+
 ## 0.1.0 (2023-01-08)
 
 ### Feat

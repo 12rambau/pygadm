@@ -12,7 +12,7 @@ from pathlib import Path
 import geopandas as gpd
 import pandas as pd
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Pierrick Rambaud"
 __email__ = "pierrick.rambaud49@gmail.com"
 
