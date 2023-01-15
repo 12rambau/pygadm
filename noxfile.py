@@ -21,7 +21,6 @@ def test(session):
 def docs(session):
     """Build the documentation."""
     session.install(".[doc]")
-    session.run("rm", "-rf", "build/", external=True)
     session.run(
         "sphinx-apidoc",
         "--force",
@@ -30,7 +29,7 @@ def docs(session):
         "docs/source/_api",
         "./pygadm",
     )
-    session.run("sphinx-build", "-b", "html", "docs/source", "build")
+    session.run("sphinx-build", "-b", "html", "docs/source", "docs/build/html")
 
 
 @nox.session(name="mypy", reuse_venv=True)
