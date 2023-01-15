@@ -69,3 +69,9 @@ def test_case_insensitive():
     gdf2 = pygadm.get_items(name="singaPORE")
 
     assert gdf1.equals(gdf2)
+
+
+def test_duplicate_areas():
+    """Test that duplicate geometries return an error."""
+    with pytest.raises(ValueError):
+        pygadm.get_items(name="central")
