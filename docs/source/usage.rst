@@ -81,6 +81,28 @@ Using the :code:`content_level` option, one can require smaller administrative l
 
     m
 
+Request multiple areas at once
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 0.2.0
+
+    names and admin can now be set as list 
+
+If you need to perform regional analysis that regroups multiple boundaries, you cna now request them at once using a list of names or a list of admins. In this example we request both germany and France at once: 
+
+.. jupyter-execute:: 
+
+    import pygadm
+    from ipyleaflet import GeoJSON, Map, basemaps
+
+    gdf = pygadm.get_items(name=["France", "Germany"])
+
+    # display it in a map
+    m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[48.83, 5.17])
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
+
+    m
+
 Find names
 ----------
 

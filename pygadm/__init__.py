@@ -7,7 +7,9 @@ The data are freely available for academic use and other non-commercial use. Red
 """
 
 import warnings
+from itertools import product
 from pathlib import Path
+from typing import List, Union
 
 import geopandas as gpd
 import pandas as pd
@@ -20,14 +22,52 @@ __gadm_version__ = "410"  # 4.1
 __gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_{}_{}.json"
 __gadm_data__ = Path(__file__).parent / "data" / "gadm_database.parquet"
 
+__all__ = ["get_items", "get_names"]
+
 
 def get_items(
-    name: str = "", admin: str = "", content_level: int = -1
+    name: Union[str, List[str]] = "",
+    admin: Union[str, List[str]] = "",
+    content_level: int = -1,
 ) -> gpd.GeoDataFrame:
     """
     Return the requested administrative boundaries using the name or the administrative code.
 
     Return a Geopandas GeoDataFrame representing an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the area level on the fly. The user can also request for a specific level for the GeoDataFrame features e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
+
+    Args:
+        name: The name of an administrative area. Cannot be set along with :code:`admin`. it can be a list or a single name.
+        admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`. It can be a list or a single admin code.
+        content_level: The level to use in the final dataset. Default to -1 (use level from the area).
+
+    Returns:
+        The GeoDataFrame of the requested area with all the GADM attributes.
+    """
+    # set up the loop
+    names = [name] if isinstance(name, str) else name
+    admins = [admin] if isinstance(admin, str) else admin
+
+    # check that they are not all empty
+    if len(names) == 0 and len(admins) == 0:
+        raise ValueError('at least "name" or "admin" need to be set.')
+
+    # use itertools, normally one of them is empty so it will raise an error
+    # if not the case as admin and name will be set together
+    gdf_list = [_items(n, a, content_level) for a, n in product(admins, names)]
+
+    # avoid concat if not needed for speed boost
+    gdf = gdf_list[0] if len(gdf_list) == 1 else pd.concat(gdf_list)
+
+    return gdf
+
+
+def _items(
+    name: str = "", admin: str = "", content_level: int = -1
+) -> gpd.GeoDataFrame:
+    """
+    Return the requested administrative boundaries using the name or the administrative code.
+
+    Same method as get_items but only accept single requests in str format.
 
     Args:
         name: The name of an administrative area. Cannot be set along with :code:`admin`.
@@ -37,6 +77,11 @@ def get_items(
     Returns:
         The GeoDataFrame of the requested area with all the GADM attributes.
     """
+    if isinstance(name, list) or isinstance(admin, list):
+        raise ValueError(
+            "You cannot call ``get_single_items`` with list arguments. Please use ``get_items instead."
+        )
+
     # call to get_names without level to raise an error if the requested level won't work
     df = get_names(name, admin)
     if len(df) > 1:
@@ -80,7 +125,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     if name and admin:
         raise ValueError('"name" and "id" cannot be set at the same time.')
     elif not name and not admin:
-        raise ValueError('at least "name" or "id" need to be set.')
+        raise ValueError('at least "name" or "admin" need to be set.')
 
     # set the id we look for and tell the function if its a name or an admin
     is_name = True if name else False
