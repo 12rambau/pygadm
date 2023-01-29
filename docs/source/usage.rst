@@ -88,7 +88,7 @@ Request multiple areas at once
 
     names and admin can now be set as list 
 
-If you need to perform regional analysis that regroups multiple boundaries, you cna now request them at once using a list of names or a list of admins. In this example we request both germany and France at once: 
+To perform regional analysis that agregate multiple boundaries, you can now request them at once using a list of ``name`` or a list of ``admin``. In this example we request both germany and France at once: 
 
 .. jupyter-execute:: 
 
