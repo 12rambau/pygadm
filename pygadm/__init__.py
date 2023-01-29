@@ -48,7 +48,7 @@ def get_items(
     admins = [admin] if isinstance(admin, str) else admin
 
     # check that they are not all empty
-    if len(names) == 0 and len(admins) == 0:
+    if names == [""] == admins:
         raise ValueError('at least "name" or "admin" need to be set.')
 
     # use itertools, normally one of them is empty so it will raise an error
@@ -77,11 +77,6 @@ def _items(
     Returns:
         The GeoDataFrame of the requested area with all the GADM attributes.
     """
-    if isinstance(name, list) or isinstance(admin, list):
-        raise ValueError(
-            "You cannot call ``get_single_items`` with list arguments. Please use ``get_items instead."
-        )
-
     # call to get_names without level to raise an error if the requested level won't work
     df = get_names(name, admin)
     if len(df) > 1:

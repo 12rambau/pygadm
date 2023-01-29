@@ -79,9 +79,6 @@ def test_duplicate_areas():
 
 def test_multiple_input():
     """Test when several geometries are requested at once."""
-    with pytest.raises(ValueError):
-        pygadm.get_items(name=["france", "germany"], admin=["FRA", "DEU"])
-
     gdf1 = pygadm.get_items(name=["france", "germany"])
     assert len(gdf1) == 2
 
