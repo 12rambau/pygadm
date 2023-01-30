@@ -10,7 +10,7 @@ def lint(session):
     session.run("pre-commit", "run", "--a", *session.posargs)
 
 
-@nox.session(python=["3.7", "3.8", "3.9"], reuse_venv=True)
+@nox.session(reuse_venv=True)
 def test(session):
     """Apply the tests on the lib."""
     session.install(".[test]")

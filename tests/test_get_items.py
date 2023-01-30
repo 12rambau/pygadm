@@ -84,11 +84,10 @@ def test_multiple_input():
 
     gdf2 = pygadm.get_items(admin=["FRA", "DEU"])
     assert len(gdf2) == 2
-    
+
 
 def test_duplication():
-    """Test that known duplication cases return the biggest AOI"""
-    
+    """Test that known duplication cases return the biggest AOI."""
     # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
     gdf = pygadm.get_items(name="Italy")
     assert len(gdf) == 1
