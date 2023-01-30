@@ -102,7 +102,33 @@ To perform regional analysis that agregate multiple boundaries, you can now requ
     m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
+    
+Continents
+^^^^^^^^^^
 
+It's possible to request continent instead countries one of the following names:
+
+-   North America
+-   South America
+-   Antartica
+-   Europe
+-   Asia
+-   Oceania
+-   Africa
+
+.. jupyter-execute::
+
+    import pygadm 
+    from ipyleaflet import GeoJSON, Map, basemaps
+
+    gdf = pygadm.get_items(name="europe")
+
+    # display it in a map 
+    m = Map(basemap=basemaps.Esri.WorldImagery)
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
+
+    m
+    
 Find names
 ----------
 
