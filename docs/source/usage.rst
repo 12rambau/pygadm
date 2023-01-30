@@ -106,7 +106,7 @@ To perform regional analysis that agregate multiple boundaries, you can now requ
 Continents
 ^^^^^^^^^^
 
-It's possible to request continent instead countries one of the following names:
+It's possible to request all countries from one single continent using one of the following names:
 
 -   North America
 -   South America
@@ -116,18 +116,15 @@ It's possible to request continent instead countries one of the following names:
 -   Oceania
 -   Africa
 
-.. jupyter-execute::
+.. code-block:: python
 
     import pygadm 
-    from ipyleaflet import GeoJSON, Map, basemaps
 
     gdf = pygadm.get_items(name="europe")
+    
+.. note::
 
-    # display it in a map 
-    m = Map(basemap=basemaps.Esri.WorldImagery)
-    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
-
-    m
+    it will load all the countries included in the continent. Using it requires a good internet conexion and a powerfull computer to handle the produced ``geoDataFrame``. It is suggested to use it without smaller administrative areas.
     
 Find names
 ----------
