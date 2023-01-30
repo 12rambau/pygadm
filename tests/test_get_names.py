@@ -63,3 +63,10 @@ def test_case_insensitive():
     df2 = pygadm.get_names(name="singaPORE")
 
     assert df1.equals(df2)
+    
+def test_duplication():
+    """Test that known duplication cases return the biggest AOI"""
+    
+    # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
+    df = pygadm.get_names(name="Italy")
+    assert df.GID_0.to_list() == ["ITA"]
