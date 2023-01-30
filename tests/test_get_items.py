@@ -84,3 +84,12 @@ def test_multiple_input():
 
     gdf2 = pygadm.get_items(admin=["FRA", "DEU"])
     assert len(gdf2) == 2
+
+
+def test_continent():
+    """Check that the continent are working."""
+    continents = pygadm.__gadm_continent__
+
+    for name in continents:
+        gdf = pygadm.get_items(name=name)
+        assert len(gdf) == len(continents[name])
