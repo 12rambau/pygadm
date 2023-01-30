@@ -57,7 +57,7 @@ def get_items(
 
     # special parsing for continents. They are saved as admins to avoid any duplication
     if len(names) == 1 and names[0].lower() in __gadm_continent__:
-        admins = [c[0] for c in __gadm_continent__[names[0].lower()]]
+        admins = [c for c in __gadm_continent__[names[0].lower()]]
         names = [""]
 
     # use itertools, normally one of them is empty so it will raise an error
