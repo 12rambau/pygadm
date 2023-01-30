@@ -33,7 +33,6 @@ if __name__ == "__main__":
 
     # parse agruments
     args = parser.parse_args()
-    # raise Exception(args)
 
     # url of the gadm files
     url = f"https://geodata.ucdavis.edu/gadm/gadm4.1/gadm_{__gadm_version__}-gpkg.zip"

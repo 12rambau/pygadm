@@ -37,8 +37,8 @@ def test_sub_content():
     """Request a sublevel."""
     sublevels = ["Central", "East", "North", "North-East", "West"]
     df = pygadm.get_names(name="Singapore", content_level=1)
-    assert len(df) == 5
     assert sorted(df.NAME_1.to_list()) == sublevels
+    assert len(df) == 5
 
 
 def test_too_high():
