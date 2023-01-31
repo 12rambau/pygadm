@@ -86,6 +86,15 @@ def test_multiple_input():
     assert len(gdf2) == 2
 
 
+def test_continent():
+    """Check that the continent are working."""
+    continents = pygadm.__gadm_continent__
+
+    for name in continents:
+        gdf = pygadm.get_items(name=name)
+        assert len(gdf) == len(continents[name])
+
+
 def test_duplication():
     """Test that known duplication cases return the biggest AOI."""
     # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1

@@ -6,6 +6,7 @@ This lib provides access to GADM datasets from a Python script without downloadi
 The data are freely available for academic use and other non-commercial use. Redistribution, or commercial use is not allowed without prior permission. See the license of the GADM project for more details.
 """
 
+import json
 import warnings
 from itertools import product
 from pathlib import Path
@@ -21,8 +22,11 @@ __email__ = "pierrick.rambaud49@gmail.com"
 __gadm_version__ = "410"  # 4.1
 __gadm_url__ = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_{}_{}.json"
 __gadm_data__ = Path(__file__).parent / "data" / "gadm_database.parquet"
+__gadm_continent__ = json.loads(
+    (Path(__file__).parent / "data" / "gadm_continent.json").read_text()
+)
 
-__all__ = ["get_items", "get_names"]
+# __all__ = ["get_items", "get_names"]
 
 
 def get_items(
@@ -50,6 +54,11 @@ def get_items(
     # check that they are not all empty
     if names == [""] == admins:
         raise ValueError('at least "name" or "admin" need to be set.')
+
+    # special parsing for continents. They are saved as admins to avoid any duplication
+    if len(names) == 1 and names[0].lower() in __gadm_continent__:
+        admins = [c for c in __gadm_continent__[names[0].lower()]]
+        names = [""]
 
     # use itertools, normally one of them is empty so it will raise an error
     # if not the case as admin and name will be set together
