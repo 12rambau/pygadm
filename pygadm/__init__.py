@@ -173,4 +173,12 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     # get the columns name to display
     columns = [f"NAME_{content_level}", f"GID_{content_level}"]
 
-    return sub_df[columns].drop_duplicates(ignore_index=True)
+    # the list will contain duplicate as all the smaller admin level will be included
+    sub_df = sub_df[columns].drop_duplicates(ignore_index=True)
+
+    # the list will contain NA as all the bigger admin level will be selected as well
+    # the database is read as pure string so dropna cannot be used
+    # .astype is also a vectorized operation so it goes very fast
+    final_df = sub_df[sub_df[columns[0]].astype(bool)]
+
+    return final_df

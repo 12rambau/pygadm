@@ -93,3 +93,11 @@ def test_continent():
     for name in continents:
         gdf = pygadm.get_items(name=name)
         assert len(gdf) == len(continents[name])
+
+
+def test_duplication():
+    """Test that known duplication cases return the biggest AOI."""
+    # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
+    gdf = pygadm.get_items(name="Italy")
+    assert len(gdf) == 1
+    assert gdf.GID_0.to_list() == ["ITA"]
