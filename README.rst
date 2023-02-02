@@ -8,6 +8,10 @@ PyGADM
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :target: https://opensource.org/licenses/MIT
     :alt: License: MIT
+    
+.. image:: https://img.shields.io/conda/vn/conda-forge/pygadm?logo=anaconda&logoColor=white
+   :target: https://anaconda.org/conda-forge/pygadm
+   :alt: Conda (channel only)
 
 .. image:: https://img.shields.io/pypi/v/pygadm?logo=python&logoColor=white
    :target: https://pypi.org/project/pygadm/
