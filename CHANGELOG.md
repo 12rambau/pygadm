@@ -1,3 +1,26 @@
+## 0.2.0 (2023-02-02)
+
+### Feat
+
+- add the support for continents
+- use lists in the requests
+
+### Fix
+
+- udate database generation script
+- add last continents
+- ignore ruff cache
+- add north america
+- add europe and asia
+- increase coverage
+- build documentation in the appropriate folder Fix #1
+
+### Refactor
+
+- styling
+- edit database to avoid duplication now the database is a stair with first all the countries then all admin 1 etc. This ensure that when there is a duplication (e.g. Italy) it catches the country first
+- reduce size of continent list
+
 ## 0.1.1 (2023-01-10)
 
 ### Refactor

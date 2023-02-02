@@ -15,7 +15,7 @@ from typing import List, Union
 import geopandas as gpd
 import pandas as pd
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 __author__ = "Pierrick Rambaud"
 __email__ = "pierrick.rambaud49@gmail.com"
 
