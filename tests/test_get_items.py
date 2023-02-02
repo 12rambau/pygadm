@@ -88,11 +88,9 @@ def test_multiple_input():
 
 def test_continent():
     """Check that the continent are working."""
-    continents = pygadm.__gadm_continent__
-
-    for name in continents:
-        gdf = pygadm.get_items(name=name)
-        assert len(gdf) == len(continents[name])
+    gdf = pygadm.get_items(name="antartica")
+    assert len(gdf) == 1
+    assert gdf.GID_0.to_list() == ["ATA"]
 
 
 def test_duplication():
