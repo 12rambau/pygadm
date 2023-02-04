@@ -38,5 +38,5 @@ For local development, don't forget to install the pre-commit hooks before makin
 
    git clone https://github.com/12rambau/pygadm.git
    cd pygadm/
-   pre-commit install -t pre-commit -t commit-msg
+   pre-commit install
    pip install -e .
