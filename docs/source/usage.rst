@@ -252,6 +252,16 @@ I now know that the code is "SGP.1_1" for the Central province so I can run my i
 
     m
 
+Suggestion
+----------
+
+If you make an error when writing the name of your input, the error message will suggest 5 potential candidates in the existing names of the GADM dataset:
 
 
+.. jupyter-execute::
+    :raises: ValueError
+
+    import pygadm
+
+    gdf = pygadm.get_items(name="Franc")
 

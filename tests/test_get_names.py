@@ -70,3 +70,10 @@ def test_duplication():
     # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
     df = pygadm.get_names(name="Italy")
     assert df.GID_0.to_list() == ["ITA"]
+
+
+def test_suggestions():
+    """Test that when a wrong name is given 5 options are proposed in the error message."""
+    expected_error = 'The requested "Franc" is not part of GADM. The closest matches are: Francs, Franco, France, Franca, Francon.'
+    with pytest.raises(ValueError, match=expected_error):
+        pygadm.get_names(name="Franc")

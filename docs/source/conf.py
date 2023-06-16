@@ -27,7 +27,7 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx-favicon",
+    "sphinx_favicon",
     "jupyter_sphinx",
 ]
 templates_path = ["_templates"]

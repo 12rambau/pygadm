@@ -8,11 +8,13 @@ The data are freely available for academic use and other non-commercial use. Red
 
 import json
 import warnings
+from difflib import get_close_matches
 from itertools import product
 from pathlib import Path
 from typing import List, Union
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 
 __version__ = "0.2.0"
@@ -155,7 +157,17 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     )
 
     if not is_in.any().any():
-        raise Exception(f'The requested "{id}" is not part of GADM')
+        # find the 5 closest names/id
+        columns = [df[column.format(i)].dropna().str.lower().values for i in range(6)]
+        ids = np.unique(np.concatenate(columns))
+        close_ids = get_close_matches(id.lower(), ids, n=5)
+        if is_name is True:
+            close_ids = [i.capitalize() for i in close_ids]
+        else:
+            close_ids = [i.upper() for i in close_ids]
+        raise ValueError(
+            f'The requested "{id}" is not part of GADM. The closest matches are: {", ".join(close_ids)}.'
+        )
 
     # Get the iso_3 of the associated country of the identifed area and the associated level
     line = is_in[~((~is_in).all(axis=1))].idxmax(1)
