@@ -33,7 +33,7 @@ if __name__ == "__main__":
         type=Path,
     )
 
-    # parse agruments
+    # parse arguments
     args = parser.parse_args()
 
     # url of the gadm files

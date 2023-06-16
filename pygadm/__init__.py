@@ -90,12 +90,12 @@ def _items(
     df = get_names(name, admin)
     if len(df) > 1:
         raise ValueError(
-            f'The requested name ("{name}") is not unique ({len(df)} results). To retreive it, please use the `admin` parameter instead. If you don\'t know the GADM code, use the following code, it will return the GADM codes as well:\n`get_names(name="{name}")`'
+            f'The requested name ("{name}") is not unique ({len(df)} results). To retrieve it, please use the `admin` parameter instead. If you don\'t know the GADM code, use the following code, it will return the GADM codes as well:\n`get_names(name="{name}")`'
         )
     level = df.columns[0].replace("NAME_", "")
     iso_3 = df.iloc[0][f"GID_{level}"][:3]
 
-    # now load the usefull one to get content_level
+    # now load the useful one to get content_level
     df = get_names(name, admin, content_level)
     content_level = df.columns[0].replace("NAME_", "")
 
@@ -107,11 +107,13 @@ def _items(
     url = __gadm_url__.format(iso_3, content_level)
     try:
         level_gdf = gpd.read_file(url)
-    except Exception as e:
+    except Exception:
         # The data url is automatically build, it should be correct. From time
         # to time the server are down from GADM side so we wrie down a specific
         # error message if something goes wrong
-        raise Exception(f"We cannot retreive the data from GADM server. Try to manually open the following link: {url}. If it doesn't work, the error is coming from GADM servers. If it works please open an issue on our repository: https://github.com/12rambau/pygadm/issues.")
+        raise Exception(
+            f"We cannot retrieve the data from GADM server. Try to manually open the following link: {url}. If it doesn't work, the error is coming from GADM servers. If it works please open an issue on our repository: https://github.com/12rambau/pygadm/issues."
+        )
 
     level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
     gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
@@ -123,7 +125,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     """
     Return the list of names available in a administrative layer using the name or the administrative code.
 
-    Return a pandas DataFrame of the names ad GADM code of an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the coresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
+    Return a pandas DataFrame of the names ad GADM code of an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the corresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
     Args:
         name: The name of a administrative area. Cannot be set along with :code:`admin`.

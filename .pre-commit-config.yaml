@@ -17,8 +17,15 @@ repos:
       - id: nbstripout
         stages: [commit]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.215"
+    rev: v0.0.215
     hooks:
       - id: ruff
         stages: [commit]
         args: ["--force-exclude"]
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.4
+    hooks:
+      - id: codespell
+        stages: [commit]
+        additional_dependencies:
+        - tomli

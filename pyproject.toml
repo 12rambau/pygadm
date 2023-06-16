@@ -100,3 +100,6 @@ docstring-quotes = "double"
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.codespell]
+skip = 'CHANGELOG.md,**/*.json'
