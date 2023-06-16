@@ -165,7 +165,7 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
             close_ids = [i.capitalize() for i in close_ids]
         else:
             close_ids = [i.upper() for i in close_ids]
-        raise Exception(
+        raise ValueError(
             f'The requested "{id}" is not part of GADM. The closest matches are: {", ".join(close_ids)}.'
         )
 

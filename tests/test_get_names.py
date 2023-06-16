@@ -72,8 +72,8 @@ def test_duplication():
     assert df.GID_0.to_list() == ["ITA"]
 
 
-def test_close_options():
+def test_suggestions():
     """Test that when a wrong name is given 5 options are proposed in the error message."""
     expected_error = 'The requested "Franc" is not part of GADM. The closest matches are: Francs, Franco, France, Franca, Francon.'
-    with pytest.raises(Exception, match=expected_error):
+    with pytest.raises(ValueError, match=expected_error):
         pygadm.get_names(name="Franc")
