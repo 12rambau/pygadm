@@ -104,7 +104,15 @@ def _items(
     id = name if name else admin
 
     # read the data from server
-    level_gdf = gpd.read_file(__gadm_url__.format(iso_3, content_level))
+    url = __gadm_url__.format(iso_3, content_level)
+    try:
+        level_gdf = gpd.read_file(url)
+    except Exception as e:
+        # The data url is automatically build, it should be correct. From time
+        # to time the server are down from GADM side so we wrie down a specific
+        # error message if something goes wrong
+        raise Exception(f"We cannot retreive the data from GADM server. Try to manually open the following link: {url}. If it doesn't work, the error is coming from GADM servers. If it works please open an issue on our repository: https://github.com/12rambau/pygadm/issues.")
+
     level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
     gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
 
