@@ -148,13 +148,17 @@ def get_names(name: str = "", admin: str = "", content_level: int = -1) -> pd.Da
     id = name if name else admin
 
     # read the data and find if the element exist
-    df = pd.read_parquet(__gadm_data__).apply(lambda col: col.str.lower())
+    df = pd.read_parquet(__gadm_data__)
     column = "NAME_{}" if is_name else "GID_{}"
-    is_in = df.filter([column.format(i) for i in range(6)]).isin([id.lower()])
+    is_in = (
+        df.filter([column.format(i) for i in range(6)])
+        .apply(lambda col: col.str.lower())
+        .isin([id.lower()])
+    )
 
     if not is_in.any().any():
         # find the 5 closest names/id
-        columns = [df[column.format(i)].dropna().values for i in range(6)]
+        columns = [df[column.format(i)].dropna().str.lower().values for i in range(6)]
         ids = np.unique(np.concatenate(columns))
         close_ids = get_close_matches(id.lower(), ids, n=5)
         if is_name is True:
