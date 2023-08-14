@@ -1,25 +1,29 @@
 PyGADM
 ======
 
-.. image:: https://img.shields.io/readthedocs/pygadm?logo=readthedocs&logoColor=white
-    :target: https://pygadm.readthedocs.io/en/stable
-    :alt: Documentation Status
-    
-.. image:: https://img.shields.io/badge/License-MIT-yellow.svg
+.. image:: https://img.shields.io/badge/License-MIT-yellow?logo=opensourceinitiative&logoColor=white
     :target: https://opensource.org/licenses/MIT
     :alt: License: MIT
-    
-.. image:: https://img.shields.io/conda/vn/conda-forge/pygadm?logo=anaconda&logoColor=white
+
+.. image:: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?logo=git&logoColor=white
+   :target: https://conventionalcommits.org
+   :alt: conventional commit
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Black badge
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/pygadm?logo=condaforge&logoColor=white
    :target: https://anaconda.org/conda-forge/pygadm
    :alt: Conda (channel only)
 
-.. image:: https://img.shields.io/pypi/v/pygadm?logo=python&logoColor=white
+.. image:: https://img.shields.io/pypi/v/pygadm?logo=pypi&logoColor=white
    :target: https://pypi.org/project/pygadm/
    :alt: PyPI
 
-.. image:: https://img.shields.io/pypi/pyversions/pygadm?label=version&logo=python&logoColor=white
-   :target: https://pypi.org/project/pygadm/
-   :alt: PyPI - Python Version
+.. image:: https://img.shields.io/readthedocs/pygadm?logo=readthedocs&logoColor=white
+    :target: https://pygadm.readthedocs.io/en/stable
+    :alt: Documentation Status
 
 .. image:: https://img.shields.io/github/actions/workflow/status/12rambau/pygadm/unit.yaml?logo=github&logoColor=white
    :target: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml
@@ -32,14 +36,6 @@ PyGADM
 .. image:: https://img.shields.io/codecov/c/github/12rambau/pygadm?label=codecov&logo=codecov&logoColor=white&token=O6ksUUazr4
    :target: https://codecov.io/gh/12rambau/pygadm
    :alt: Coverage
-    
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
-   :alt: Black badge
-   
-.. image:: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg
-   :target: https://conventionalcommits.org
-   :alt: conventional commit
 
 Easy access to administrative boundary defined by GADM from a Python scripts.
 
