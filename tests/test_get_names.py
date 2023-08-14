@@ -5,10 +5,10 @@ import pytest
 import pygadm
 
 
-def test_empty():
-    """Empty request."""
-    with pytest.raises(Exception):
-        pygadm.get_names()
+def test_empty(dataframe_regression):
+    """Empty request which should return the country list."""
+    df = pygadm.get_names()
+    dataframe_regression.check(df)
 
 
 def test_duplicate_input():

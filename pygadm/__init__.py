@@ -148,57 +148,70 @@ def get_names(
     # sanitary check on parameters
     if name and admin:
         raise ValueError('"name" and "id" cannot be set at the same time.')
-    elif not name and not admin:
-        raise ValueError('at least "name" or "admin" need to be set.')
 
-    # set the id we look for and tell the function if its a name or an admin
-    is_name = True if name else False
-    id = name if name else admin
-
-    # read the data and find if the element exist
+    # if a name or admin number is set, we need to filter the dataset accordingly
+    # if not we will simply consider the world dataset
     df = pd.read_parquet(__gadm_data__)
-    column = "NAME_{}" if is_name else "GID_{}"
-    is_in = (
-        df.filter([column.format(i) for i in range(6)])
-        .apply(lambda col: col.str.lower())
-        .isin([id.lower()])
-    )
+    if name or admin:
+        # set the id we look for and tell the function if its a name or an admin
+        is_name = True if name else False
+        id = name if name else admin
 
-    if not is_in.any().any():
-        # find the 5 closest names/id
-        columns = [df[column.format(i)].dropna().str.lower().values for i in range(6)]
-        ids = np.unique(np.concatenate(columns))
-        close_ids = get_close_matches(id.lower(), ids, n=5)
-        if is_name is True:
-            close_ids = [i.capitalize() for i in close_ids]
-        else:
-            close_ids = [i.upper() for i in close_ids]
-        raise ValueError(
-            f'The requested "{id}" is not part of GADM. The closest matches are: {", ".join(close_ids)}.'
+        # read the data and find if the element exist
+        column = "NAME_{}" if is_name else "GID_{}"
+        is_in = (
+            df.filter([column.format(i) for i in range(6)])
+            .apply(lambda col: col.str.lower())
+            .isin([id.lower()])
         )
 
-    # Get the iso_3 of the associated country of the identifed area and the associated level
-    line = is_in[~((~is_in).all(axis=1))].idxmax(1)
-    level = line.iloc[0][5 if is_name else 4]  # GID_ or NAME_
+        if not is_in.any().any():
+            # find the 5 closest names/id
+            columns = [
+                df[column.format(i)].dropna().str.lower().values for i in range(6)
+            ]
+            ids = np.unique(np.concatenate(columns))
+            close_ids = get_close_matches(id.lower(), ids, n=5)
+            if is_name is True:
+                close_ids = [i.capitalize() for i in close_ids]
+            else:
+                close_ids = [i.upper() for i in close_ids]
+            raise ValueError(
+                f'The requested "{id}" is not part of GADM. '
+                f'The closest matches are: {", ".join(close_ids)}.'
+            )
 
-    # load the max_level available in the requested area
-    sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
-    max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
+        # Get the iso_3 of the associated country of the identifed area and the associated level
+        line = is_in[~((~is_in).all(axis=1))].idxmax(1)
+        level = line.iloc[0][5 if is_name else 4]  # GID_ or NAME_
 
-    # get the request level from user
-    if content_level == -1:
-        content_level = level
-    elif content_level < int(level):
-        warnings.warn(
-            f"The requested level ({content_level}) is higher than the area ({level}). Fallback to {level}."
+        # load the max_level available in the requested area
+        sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
+        max_level = next(
+            i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any()
         )
-        content_level = level
 
-    if int(content_level) > max_level:
-        warnings.warn(
-            f"The requested level ({content_level}) is higher than the max level in this country ({max_level}). Fallback to {max_level}."
-        )
-        content_level = max_level
+        # get the request level from user
+        content_level, level = int(content_level), int(level)
+        if content_level == -1:
+            content_level = level
+        elif content_level < level:
+            warnings.warn(
+                f"The requested level ({content_level}) is higher than the area ({level}). "
+                f"Fallback to {level}."
+            )
+            content_level = level
+
+        if content_level > max_level:
+            warnings.warn(
+                f"The requested level ({content_level}) is higher than the max level in "
+                f"this country ({max_level}). Fallback to {max_level}."
+            )
+            content_level = max_level
+
+    else:
+        sub_df = df
+        content_level = 0 if content_level == -1 else content_level
 
     # get the columns name to display
     columns = [f"NAME_{content_level}", f"GID_{content_level}"]
