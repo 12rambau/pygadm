@@ -139,8 +139,6 @@ def gee_configure() -> None:
             credential_file_path = credential_folder_path / "credentials"
             credential_file_path.write_text(ee_token)
 
-            raise Exception("je l'ai fait")
-
         # if the user is in local development the authentication should
         # already be available
         ee.Initialize(http_transport=httplib2.Http())
