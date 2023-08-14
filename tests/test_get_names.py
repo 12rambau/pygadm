@@ -75,3 +75,9 @@ def test_suggestions():
     expected_error = 'The requested "Franc" is not part of GADM. The closest matches are: Francs, Franco, France, Franca, Francon.'
     with pytest.raises(ValueError, match=expected_error):
         pygadm.get_names(name="Franc")
+
+
+def test_complete_content(dataframe_regression):
+    """Request the complete hierarchy of an area."""
+    df = pygadm.get_names(name="Singapore", content_level=1, complete=True)
+    dataframe_regression.check(df)
