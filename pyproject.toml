@@ -21,6 +21,7 @@ dependencies = [
     "Deprecated",
     "geopandas",
     "pyarrow",
+    "requests-cache"
 ]
 
 [[project.authors]]

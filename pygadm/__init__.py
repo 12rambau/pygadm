@@ -16,6 +16,9 @@ from typing import List, Union
 import geopandas as gpd
 import numpy as np
 import pandas as pd
+from requests_cache import CachedSession
+
+session = CachedSession("pygadm", use_temp=True)
 
 __version__ = "0.2.0"
 __author__ = "Pierrick Rambaud"
@@ -108,7 +111,7 @@ def _items(
     # read the data from server
     url = __gadm_url__.format(iso_3, content_level)
     try:
-        level_gdf = gpd.read_file(url)
+        data = json.loads(session.get(url).content)
     except Exception:
         # The data url is automatically build, it should be correct. From time
         # to time the server are down from GADM side so we wrie down a specific
@@ -117,6 +120,7 @@ def _items(
             f"We cannot retrieve the data from GADM server. Try to manually open the following link: {url}. If it doesn't work, the error is coming from GADM servers. If it works please open an issue on our repository: https://github.com/12rambau/pygadm/issues."
         )
 
+    level_gdf = gpd.GeoDataFrame.from_features(data)
     level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
     gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
 
