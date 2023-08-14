@@ -77,8 +77,6 @@ jobs:
         run: pip install nox coverage[toml]
       - name: test with pytest
         run: nox -s test
-      - name: assess dead fixtures
-        run: nox -s dead-fixtures
       - name: coverage
         run: coverage xml
       - name: codecov

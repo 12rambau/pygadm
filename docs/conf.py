@@ -96,9 +96,11 @@ favicons = [
 ]
 
 # -- Options for autosummary/autodoc output ------------------------------------
-autosummary_generate = True
-autoclass_content = "init"
 autodoc_typehints = "description"
+autoapi_dirs = ["../pygadm"]
+autoapi_python_class_content = "init"
+autoapi_member_order = "groupwise"
+autoapi_root = "api"
 
 # -- Options for autosectionlabel ----------------------------------------------
 autosectionlabel_prefix_document = True
