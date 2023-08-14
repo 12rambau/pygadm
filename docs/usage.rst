@@ -116,11 +116,18 @@ It's possible to request all countries from one single continent using one of th
 -   Oceania
 -   Africa
 
-.. code-block:: python
+.. jupyter-execute::
 
     import pygadm
+    from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.get_items(name="europe")
+    gdf = pygadm.get_items(name="south america")
+
+    # display it in a map
+    m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[-20.30, -59.32])
+    m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
+
+    m
 
 .. note::
 
@@ -149,14 +156,12 @@ Google Earth engine
 Transform gdf into ``ee.FeatureCollection``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to use this lib with GEE, install the "earthengine-api" package in your environment and then run the following code:
+If you want to use this lib with GEE, install the "earthengine-api" package in your environment and then run the following code and transform the ``GeoDataFrame`` into a ``ee.FeatureCollection`` as follow:
 
 .. code-block:: python
 
     import pygadm
-    import geemap
     import ee
-    from ipyleaflet import basemaps, ZoomControl
 
     ee.Initialize()
 
@@ -164,15 +169,6 @@ If you want to use this lib with GEE, install the "earthengine-api" package in y
 
     # transform into an ee.FeatureCollection
     fc = ee.FeatureCollection(gdf.__geo_interface__)
-
-    # in this example we use geemap to display the geometry on the map
-    # the map is customized to have the same look & feel as the rest of the documentation
-    m = geemap.Map(scroll_wheel_zoom=False, center=[41.86, 8.97], zoom=8, basemap=basemaps.Esri.WorldImagery)
-    m.clear_controls()
-    m.add(ZoomControl())
-    m.addLayer(fc, {"color": "red"}, "FRA")
-
-    m
 
 Simplify geometry
 ^^^^^^^^^^^^^^^^^
