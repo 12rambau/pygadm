@@ -124,7 +124,7 @@ It's possible to request all countries from one single continent using one of th
     gdf = pygadm.get_items(name="south america")
 
     # display it in a map
-    m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[-20.30, -59.32])
+    m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=2, center=[-20.30, -59.32])
     m.add(GeoJSON(data=gdf.__geo_interface__, style={"color": "red", "fillOpacity": .4}))
 
     m
