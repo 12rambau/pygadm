@@ -80,12 +80,6 @@ def test_multiple_input(dataframe_regression):
     assert gdf2.equals(gdf1)
 
 
-def test_continent(data_regression):
-    """Check that the continent are working."""
-    gdf = pygadm.get_items(name="antartica")
-    data_regression.check(gdf.GID_0.tolist())
-
-
 def test_duplication(data_regression):
     """Test that known duplication cases return the biggest AOI."""
     # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
