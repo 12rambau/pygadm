@@ -11,10 +11,10 @@ classifiers = [
     "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.7.10"
 dependencies = [
@@ -51,6 +51,7 @@ test = [
     "pytest-regressions"
 ]
 doc = [
+    "sphinx<7", # https://github.com/pydata/pydata-sphinx-theme/issues/1404
     "pydata-sphinx-theme",
     "sphinx-copybutton",
     "jupyter-sphinx",
@@ -58,6 +59,9 @@ doc = [
     "ipyleaflet",
     "geemap",
     "sphinx-favicon",
+    "ipykernel",
+    "sphinx-autoapi",
+    "httplib2",
 ]
 
 [tool.setuptools]
@@ -99,3 +103,10 @@ convention = "google"
 
 [tool.codespell]
 skip = 'CHANGELOG.md,**/*.json'
+
+[tool.mypy]
+scripts_are_modules = true
+ignore_missing_imports = true
+install_types = true
+non_interactive = true
+warn_redundant_casts = true

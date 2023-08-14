@@ -1,9 +1,14 @@
 """Configuration file for the Sphinx documentation builder."""
 
 import os
+import re
 
 # -- Path setup ----------------------------------------------------------------
 from datetime import datetime
+from pathlib import Path
+
+import ee
+import httplib2
 
 from pygadm import __author__, __version__
 
@@ -29,6 +34,7 @@ extensions = [
     "sphinx_design",
     "sphinx_favicon",
     "jupyter_sphinx",
+    "autoapi.extension",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
@@ -96,9 +102,46 @@ favicons = [
 ]
 
 # -- Options for autosummary/autodoc output ------------------------------------
-autosummary_generate = True
-autoclass_content = "init"
 autodoc_typehints = "description"
+autoapi_dirs = ["../pygadm"]
+autoapi_python_class_content = "init"
+autoapi_member_order = "groupwise"
+autoapi_root = "api"
 
 # -- Options for autosectionlabel ----------------------------------------------
 autosectionlabel_prefix_document = True
+
+# -- Script to authenticate to Earthengine using a token -----------------------
+def gee_configure() -> None:
+    """Initialize earth engine according to the environment.
+
+    It will use the creddential file if the EARTHENGINE_TOKEN env variable exist.
+    Otherwise it use the simple Initialize command (asking the user to register if necessary).
+    """
+    # only do the initialization if the credential are missing
+    if not ee.data._credentials:
+
+        # if the credentials token is asved in the environment use it
+        if "EARTHENGINE_TOKEN" in os.environ:
+
+            # get the token from environment variable
+            ee_token = os.environ["EARTHENGINE_TOKEN"]
+
+            # as long as RDT quote the token, we need to remove the quotes before writing
+            # the string to the file
+            pattern = r"^'[^']*'$"
+            if re.match(pattern, ee_token) is not None:
+                ee_token = ee_token[1:-1]
+
+            # write the token to the appropriate folder
+            credential_folder_path = Path.home() / ".config" / "earthengine"
+            credential_folder_path.mkdir(parents=True, exist_ok=True)
+            credential_file_path = credential_folder_path / "credentials"
+            credential_file_path.write_text(ee_token)
+
+        # if the user is in local development the authentication should
+        # already be available
+        ee.Initialize(http_transport=httplib2.Http())
+
+
+gee_configure()
