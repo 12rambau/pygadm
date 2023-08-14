@@ -149,9 +149,7 @@ For example to get the name and codes of all the departments in France you can r
 Google Earth engine
 -------------------
 
-.. note::
-
-    We don't display the results of these cells because the GEE authentication is not working in RDT.
+If you want to specifically work within Google Earthengine-api, have a look to `pygaul <https://github.com/12rambau/pygaul>`__ our other library that use the same selection process but return ``ee.FeatureCollection`` from the GAUL dataset.
 
 Transform gdf into ``ee.FeatureCollection``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
