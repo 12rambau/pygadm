@@ -1,3 +1,18 @@
+## 0.4.0 (2023-08-14)
+
+### Feat
+
+- access the whole list when calling `get_name`without parameters (#37)
+
+### Fix
+
+- get all the data names get all the data names when no parameter is set
+- solve documentation build issue with GEE (#40)
+
+### Refactor
+
+- clean never used file
+
 ## 0.3.0 (2023-08-14)
 
 ### Feat
