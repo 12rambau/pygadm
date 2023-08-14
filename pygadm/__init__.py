@@ -92,7 +92,7 @@ def _items(
     df = get_names(name, admin)
     if len(df) > 1:
         raise ValueError(
-            f'The requested name ("{name}") is not unique ({len(df)} results). To retrieve it, please use the `admin` parameter instead. If you don\'t know the GADM code, use the following code, it will return the GADM codes as well:\n`get_names(name="{name}")`'
+            f'The requested name ("{name}") is not unique ({len(df)} results). To retrieve it, please use the "admin" parameter instead. If you don\'t know the GADM code, use the following code, it will return the GADM codes as well: "get_names(name="{name}")"'
         )
     level = df.columns[0].replace("NAME_", "")
     iso_3 = df.iloc[0][f"GID_{level}"][:3]
