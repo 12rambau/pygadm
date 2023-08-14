@@ -6,7 +6,6 @@ PyGADM
 
    setup
    usage
-   API <_api/modules>
 
 Easy access to administrative boundary defined by GADM from a Python scripts.
 

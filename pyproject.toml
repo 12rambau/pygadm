@@ -60,7 +60,8 @@ doc = [
     "geemap",
     "sphinx-favicon",
     "ipykernel",
-    "sphinx-autoapi"
+    "sphinx-autoapi",
+    "httplib2",
 ]
 
 [tool.setuptools]
