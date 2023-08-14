@@ -146,6 +146,15 @@ For example to get the name and codes of all the departments in France you can r
 
     pygadm.get_names(admin="FRA", content_level=2)
 
+.. note::
+
+    You can also get the list of all the country names by omitting ``admin`` and ``name`` parameters. If a level is not provided the table will only show country names but other parameters remain availables.
+
+    .. code-block:: python
+
+        pygadm.get_names()
+
+
 Google Earth engine
 -------------------
 
