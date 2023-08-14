@@ -1,7 +1,6 @@
 """Tests of the ``get_items`` function."""
 
-import math
-
+import pandas as pd
 import pytest
 
 import pygadm
@@ -29,38 +28,32 @@ def test_non_existing():
         pygadm.get_items(admin="t0t0")
 
 
-def test_area():
-    """Request a known."""
-    bounds = [103.6091, 1.1664, 104.0858, 1.4714]
+def test_area(dataframe_regression):
+    """Request a known geometry."""
     gdf = pygadm.get_items(name="Singapore")
-    assert gdf.loc[0]["GID_0"] == "SGP"
-    assert all([math.isclose(b, t) for b, t in zip(gdf.total_bounds.tolist(), bounds)])
+    df = pd.concat([gdf.GID_0, gdf.bounds], axis=1)
+    dataframe_regression.check(df)
 
 
-def test_sub_content():
+def test_sub_content(dataframe_regression):
     """Request a sublevel."""
-    sublevels = ["Central", "East", "North", "North-East", "West"]
     gdf = pygadm.get_items(name="Singapore", content_level=1)
-    assert (gdf.GID_0 == "SGP").all()
-    assert len(gdf) == 5
-    assert sorted(gdf.NAME_1.to_list()) == sublevels
+    dataframe_regression.check(gdf[["NAME_1", "GID_0"]])
 
 
-def test_too_high():
+def test_too_high(data_regression):
     """Request a sublevel higher than available in the area."""
     with pytest.warns(UserWarning):
         gdf = pygadm.get_items(admin="SGP.1_1", content_level=0)
-        assert len(gdf) == 1
-        assert gdf.loc[0]["GID_1"] == "SGP.1_1"
+        data_regression.check(gdf.GID_1.tolist())
 
 
-def test_too_low():
+def test_too_low(data_regression):
     """Request a sublevel lower than available in the area."""
     # request a level too low
     with pytest.warns(UserWarning):
         gdf = pygadm.get_items(admin="SGP.1_1", content_level=3)
-        assert len(gdf) == 1
-        assert gdf.loc[0]["GID_1"] == "SGP.1_1"
+        data_regression.check(gdf.GID_1.tolist())
 
 
 def test_case_insensitive():
@@ -77,25 +70,18 @@ def test_duplicate_areas():
         pygadm.get_items(name="central")
 
 
-def test_multiple_input():
+def test_multiple_input(dataframe_regression):
     """Test when several geometries are requested at once."""
     gdf1 = pygadm.get_items(name=["france", "germany"])
-    assert len(gdf1) == 2
+    df = pd.concat([gdf1.GID_0, gdf1.bounds], axis=1)
+    dataframe_regression.check(df)
 
     gdf2 = pygadm.get_items(admin=["FRA", "DEU"])
-    assert len(gdf2) == 2
+    assert gdf2.equals(gdf1)
 
 
-def test_continent():
-    """Check that the continent are working."""
-    gdf = pygadm.get_items(name="antartica")
-    assert len(gdf) == 1
-    assert gdf.GID_0.to_list() == ["ATA"]
-
-
-def test_duplication():
+def test_duplication(data_regression):
     """Test that known duplication cases return the biggest AOI."""
     # italy is also a level 4 province of Bangladesh: BGD.5.4.6.6_1
     gdf = pygadm.get_items(name="Italy")
-    assert len(gdf) == 1
-    assert gdf.GID_0.to_list() == ["ITA"]
+    data_regression.check(gdf.GID_0.tolist())

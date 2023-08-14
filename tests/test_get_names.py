@@ -26,35 +26,33 @@ def test_non_existing():
         pygadm.get_names(admin="t0t0")
 
 
-def test_area():
-    """Request a known."""
-    sublevels = ["Singapore"]
+def test_area(dataframe_regression):
+    """Request a known geometry."""
     df = pygadm.get_names(name="Singapore")
-    assert sorted(df.NAME_0.to_list()) == sublevels
+    dataframe_regression.check(df)
+
+    df_admin = pygadm.get_names(admin="SGP")
+    assert df_admin.equals(df)
 
 
-def test_sub_content():
+def test_sub_content(dataframe_regression):
     """Request a sublevel."""
-    sublevels = ["Central", "East", "North", "North-East", "West"]
     df = pygadm.get_names(name="Singapore", content_level=1)
-    assert sorted(df.NAME_1.to_list()) == sublevels
-    assert len(df) == 5
+    dataframe_regression.check(df)
 
 
-def test_too_high():
+def test_too_high(dataframe_regression):
     """Request a sublevel higher than available in the area."""
     with pytest.warns(UserWarning):
         df = pygadm.get_names(admin="SGP.1_1", content_level=0)
-        assert len(df) == 1
-        assert df.NAME_1.to_list() == ["Central"]
+        dataframe_regression.check(df)
 
 
-def test_too_low():
+def test_too_low(dataframe_regression):
     """Request a sublevel lower than available in the area."""
     with pytest.warns(UserWarning):
         df = pygadm.get_names(admin="SGP.1_1", content_level=3)
-        assert len(df) == 1
-        assert df.NAME_1.to_list() == ["Central"]
+        dataframe_regression.check(df)
 
 
 def test_case_insensitive():

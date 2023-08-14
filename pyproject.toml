@@ -42,20 +42,16 @@ Download = "https://github.com/12rambau/pygadm/archive/${metadata:version}.tar.g
 dev = [
     "pre-commit",
     "commitizen",
-    "tqdm",
-    "mypy",
+    "nox"
 ]
 test = [
     "pytest",
     "pytest-sugar",
-    "pytest-icdiff",
     "pytest-cov",
-    "Flake8-pyproject",
-    "nox"
+    "pytest-regressions"
 ]
 doc = [
     "pydata-sphinx-theme",
-    "nox",
     "sphinx-copybutton",
     "jupyter-sphinx",
     "sphinx-design",
