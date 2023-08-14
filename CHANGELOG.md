@@ -1,3 +1,29 @@
+## 0.3.0 (2023-08-14)
+
+### Feat
+
+- display all levels information with 'complete' keyword (#32)
+- display all levels information with 'complete' keyword
+- add a devcontainer for codespace development (#29)
+- add a devcontainer for codespace development
+- add suggestion for wrongly set names/id (#23)
+- show the 5 closest options in the error
+
+### Fix
+
+- add commitizen to the dev container
+- don't use accent in error message
+- throw specific error for GADM server issues related to #22
+- install all hooks at once (#21)
+- install all hooks at once
+
+### Refactor
+
+- remove tests
+- use caching mechanism to accelerate download by x10 (#33)
+- use caching mechanism to accelerate download by x10
+- add codespell check
+
 ## 0.2.0 (2023-02-02)
 
 ### Feat
