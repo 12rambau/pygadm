@@ -185,12 +185,12 @@ The GADM dataset are describing the geometry of administrative areas in high-res
 
 Use the :code:`simplify` method from GeoPandas (more information `here <https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.simplify.html>`__) to downscale the resolution of the geometries. The following example is needed if you want to work with France:
 
-.. code-block:: python
+.. jupyter-execute::
 
     import pygadm
     import geemap
     import ee
-    from ipyleaflet import basemaps, ZoomControl
+    from ipyleaflet import ZoomControl
 
     ee.Initialize()
 
@@ -204,7 +204,7 @@ Use the :code:`simplify` method from GeoPandas (more information `here <https://
 
     # in this example we use geemap to display the geometry on the map
     # the map is customized to have the same look & feel as the rest of the documentation
-    m = geemap.Map(scroll_wheel_zoom=False, center=[46.21, 2.21], zoom=5, basemap=basemaps.Esri.WorldImagery)
+    m = geemap.Map(scroll_wheel_zoom=False, center=[46.21, 2.21], zoom=5, basemap="Esri.WorldImagery")
     m.clear_controls()
     m.add(ZoomControl())
     m.addLayer(fc, {"color": "red"}, "FRA")
