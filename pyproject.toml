@@ -103,7 +103,7 @@ docstring-quotes = "double"
 convention = "google"
 
 [tool.codespell]
-skip = 'CHANGELOG.md,**/*.json'
+skip = 'CHANGELOG.md,**/*.json,**/*.csv'
 
 [tool.mypy]
 scripts_are_modules = true
