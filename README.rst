@@ -13,6 +13,10 @@ PyGADM
    :target: https://github.com/psf/black
    :alt: Black badge
 
+.. image:: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?logo=prettier&logoColor=white
+   :target: https://github.com/prettier/prettier
+   :alt: prettier badge
+
 .. image:: https://img.shields.io/conda/vn/conda-forge/pygadm?logo=condaforge&logoColor=white
    :target: https://anaconda.org/conda-forge/pygadm
    :alt: Conda (channel only)
