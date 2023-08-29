@@ -49,7 +49,7 @@ test = [
     "pytest",
     "pytest-sugar",
     "pytest-cov",
-    "pytest-regressions"
+    "pytest-regressions @ git+https://github.com/12rambau/pytest-regressions@isinstance"
 ]
 doc = [
     "sphinx<7", # https://github.com/pydata/pydata-sphinx-theme/issues/1404
