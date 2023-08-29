@@ -90,5 +90,7 @@ def test_duplication(data_regression):
 def test_get_items():
     """Test the get_items function."""
     gdf1 = pygadm.AdmItems(name="Singapore")
-    gdf2 = pygadm.get_items(name="Singapore")
-    assert gdf1.equals(gdf2)
+
+    with pytest.warns(DeprecationWarning):
+        gdf2 = pygadm.get_items(name="Singapore")
+        assert gdf1.equals(gdf2)

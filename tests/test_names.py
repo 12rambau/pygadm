@@ -86,5 +86,7 @@ def test_complete_content(dataframe_regression):
 def test_get_names():
     """Test the get_names function."""
     df1 = pygadm.AdmNames(name="Singapore")
-    df2 = pygadm.get_names(name="Singapore")
-    assert df1.equals(df2)
+
+    with pytest.warns(DeprecationWarning):
+        df2 = pygadm.get_names(name="Singapore")
+        assert df1.equals(df2)

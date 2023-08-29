@@ -16,6 +16,7 @@ from typing import List, Union
 import geopandas as gpd
 import numpy as np
 import pandas as pd
+from deprecated.sphinx import deprecated, versionadded
 from requests_cache import CachedSession
 
 session = CachedSession("pygadm", use_temp=True)
@@ -34,6 +35,7 @@ __gadm_continent__ = json.loads(
 # __all__ = ["get_items", "get_names"]
 
 
+@versionadded(version="0.4.0", reason="Add the AdmNames class.")
 class AdmNames(pd.DataFrame):
     def __init__(
         self,
@@ -141,6 +143,7 @@ class AdmNames(pd.DataFrame):
         super().__init__(final_df)
 
 
+@deprecated(version="0.4.0", reason="Use the AdmNames class instead.")
 def get_names(
     name: str = "", admin: str = "", content_level: int = -1, complete: bool = False
 ) -> pd.DataFrame:
@@ -161,6 +164,7 @@ def get_names(
     return AdmNames(name, admin, content_level, complete)
 
 
+@versionadded(version="0.4.0", reason="Add the AdmItems class.")
 class AdmItems(gpd.GeoDataFrame):
     def __init__(
         self,
@@ -256,6 +260,7 @@ class AdmItems(gpd.GeoDataFrame):
         return gdf
 
 
+@deprecated(version="0.4.0", reason="Use the AdmItems class instead.")
 def get_items(
     name: Union[str, List[str]] = "",
     admin: Union[str, List[str]] = "",
