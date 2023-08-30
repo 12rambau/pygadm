@@ -49,7 +49,7 @@ test = [
     "pytest",
     "pytest-sugar",
     "pytest-cov",
-    "pytest-regressions"
+    "pytest-regressions @ git+https://github.com/12rambau/pytest-regressions@isinstance"
 ]
 doc = [
     "sphinx<7", # https://github.com/pydata/pydata-sphinx-theme/issues/1404
@@ -93,6 +93,7 @@ ignore = [
     "E501",  # line too long | Black take care of it
     "W605",  # invalid escape sequence | we escape specific characters for sphinx
     "D212", # Multi-line docstring | we use a different convention, too late
+    "D101", # Missing docstring in public class | we use a different convention, too late
 ]
 exclude = ["setup.py"]
 
