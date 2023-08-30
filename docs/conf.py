@@ -30,6 +30,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosectionlabel",
+    "sphinx.ext.intersphinx",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_favicon",
@@ -145,3 +146,10 @@ def gee_configure() -> None:
 
 
 gee_configure()
+
+# -- Options for intersphinx ---------------------------------------------------
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "pandas": ("https://pandas.pydata.org/docs/", None),
+    "geopandas": ("https://geopandas.org/", None),
+}
