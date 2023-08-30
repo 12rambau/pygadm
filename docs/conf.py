@@ -30,11 +30,13 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosectionlabel",
+    "sphinx.ext.intersphinx",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_favicon",
     "jupyter_sphinx",
     "autoapi.extension",
+    "sphinx_autodoc_typehints",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
@@ -145,3 +147,10 @@ def gee_configure() -> None:
 
 
 gee_configure()
+
+# -- Options for intersphinx ---------------------------------------------------
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "pandas": ("https://pandas.pydata.org/docs/", None),
+    "geopandas": ("https://geopandas.org/", None),
+}
