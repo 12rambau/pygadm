@@ -36,7 +36,6 @@ extensions = [
     "sphinx_favicon",
     "jupyter_sphinx",
     "autoapi.extension",
-    "sphinx_autodoc_typehints",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
