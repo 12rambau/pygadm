@@ -1,3 +1,17 @@
+## 0.5.0 (2023-08-31)
+
+### Feat
+
+- Use classes instead of function to create the dataframes (#42)
+- immplment the Items and Names as classes
+
+### Fix
+
+- use the patched version of pytest-regression (#45)
+- use the patched version of pytest-regression
+- remove autodoc typehint
+- use a deprecation cycle
+
 ## 0.4.0 (2023-08-14)
 
 ### Feat
