@@ -75,7 +75,7 @@ pygadm = ["data/gadm_database.parquet", "data/gadm_continent.json"]
 
 [tool.commitizen]
 changelog_file = "CHANGELOG.md"
-tag_format = "$major.$minor.$patch$prerelease"
+tag_format = "v$major.$minor.$patch$prerelease"
 update_changelog_on_bump = true
 version = "0.5.0"
 version_files = ["pyproject.toml:version", "pygadm/__init__.py:__version__"]
