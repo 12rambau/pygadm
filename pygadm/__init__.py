@@ -9,6 +9,7 @@ The data are freely available for academic use and other non-commercial use. Red
 import json
 import warnings
 from difflib import get_close_matches
+from functools import lru_cache
 from itertools import product
 from pathlib import Path
 from typing import List, Union
@@ -32,7 +33,11 @@ __gadm_continent__ = json.loads(
     (Path(__file__).parent / "data" / "gadm_continent.json").read_text()
 )
 
-# __all__ = ["get_items", "get_names"]
+
+@lru_cache(maxsize=1)
+def _df() -> pd.DataFrame:
+    """Get the parquet database."""
+    return pd.read_parquet(__gadm_data__)
 
 
 @versionadded(version="0.4.0", reason="Add the AdmNames class.")
@@ -64,7 +69,7 @@ class AdmNames(pd.DataFrame):
 
         # if a name or admin number is set, we need to filter the dataset accordingly
         # if not we will simply consider the world dataset
-        df = pd.read_parquet(__gadm_data__)
+        df = _df()
         if name or admin:
             # set the id we look for and tell the function if its a name or an admin
             is_name = True if name else False
