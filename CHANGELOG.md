@@ -1,3 +1,10 @@
+## v0.5.1 (2023-09-21)
+
+### Fix
+
+- cache the parquet loading in a private method (#47)
+- cache the parquet loading in a private method
+
 ## 0.5.0 (2023-08-31)
 
 ### Feat
