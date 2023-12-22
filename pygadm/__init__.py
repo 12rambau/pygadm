@@ -22,7 +22,7 @@ from requests_cache import CachedSession
 
 session = CachedSession("pygadm", use_temp=True)
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 __author__ = "Pierrick Rambaud"
 __email__ = "pierrick.rambaud49@gmail.com"
 

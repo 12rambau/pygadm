@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygadm"
-version = "0.5.1"
+version = "0.5.2"
 description = "Easy access to administrative boundary defined by GADM from Python scripts"
 keywords = [
   "Python"
@@ -77,7 +77,7 @@ post-install-commands = ["pre-commit install"]
 [tool.commitizen]
 tag_format = "v$major.$minor.$patch$prerelease"
 update_changelog_on_bump = false
-version = "0.5.1"
+version = "0.5.2"
 version_files = [
     "pyproject.toml:version",
     "pygadm/__init__.py:__version__",
