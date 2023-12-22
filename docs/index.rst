@@ -1,51 +1,39 @@
-PyGADM
+:html_theme.sidebar_secondary.remove:
+
+
+pyGADM
 ======
 
 .. toctree::
    :hidden:
 
-   setup
    usage
+   contribute
 
-Easy access to administrative boundary defined by GADM from a Python scripts.
+Documentation contents
+----------------------
 
-This lib provides access to GADM datasets from a Python script without manually downloading the file from the project server. We provide access to the current version (4.1.) which delimits 400,276 administrative areas.
+The documentation contains 3 main sections:
 
-The data are freely available for academic use and other non-commercial use. Redistribution, or commercial use is not allowed without prior permission. See the `license <https://gadm.org/license.html>`__ of the GADM project for more details.
+.. grid:: 1 2 3 3
 
-.. note::
+   .. grid-item::
 
-   The dataset are generated in the GADM (Global Administrative Areas) project from Berkeley University. Any request relative to the geometries should be redirected to them.
+      .. card:: Usage
+         :link: usage.html
 
-.. grid:: 1 2 2 3
-    :gutter: 2
+         Usage and installation
 
-    .. grid-item-card:: :fas:`download` Installation
-        :link: setup.html
+   .. grid-item::
 
-        Learn how to install the lib from different sources.
+      .. card:: Contribute
+         :link: contribute.html
 
-    .. grid-item-card:: :fas:`book-open` Usage
-        :link: usage.html
+         Help us improve the lib.
 
-        Usage demonstration of the lib.
+   .. grid-item::
 
-    .. grid-item-card:: :fas:`plug` API references
-        :link: api/index.html
+      .. card:: API
+         :link: autoapi/index.html
 
-        The complete API reference
-
-install it using either ``pip`` or ``conda``:
-
-.. code-block:: console
-
-   pip install pygadm
-
-and then request area of interest from their name or GADM code:
-
-.. code-block::
-
-   import pygadm
-
-   gdf = pygadm.Items(name="Singapore", content_level=1)
-
+         Discover the lib API.

@@ -1,1 +1,1 @@
-"""Tests of the pygadm lib."""
+"""make test folder a package for coverage."""
