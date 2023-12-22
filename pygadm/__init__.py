@@ -199,23 +199,23 @@ class Items(gpd.GeoDataFrame):
         Returns:
             The GeoDataFrame of the requested area with all the GADM attributes.
         """
-        # call to get_names without level to raise an error if the requested level won't work
-        df = get_names(name, admin)
+        # call to Names without level to raise an error if the requested level won't work
+        df = Names(name, admin)
         if len(df) > 1:
             raise ValueError(
                 f'The requested name ("{name}") is not unique ({len(df)} results). '
                 'To retrieve it, please use the "admin" parameter instead. '
                 "If you don't know the GADM code, use the following code, "
-                f'it will return the GADM codes as well: "get_names(name="{name}")"'
+                f'it will return the GADM codes as well: "Names(name="{name}")"'
             )
         level = df.columns[0].replace("NAME_", "")
         iso_3 = df.iloc[0][f"GID_{level}"][:3]
 
         # now load the useful one to get content_level
-        df = get_names(name, admin, content_level)
+        df = Names(name, admin, content_level)
         content_level = df.columns[0].replace("NAME_", "")
 
-        # checks have already been performed in get_names
+        # checks have already been performed in Names
         column = "NAME_{}" if name else "GID_{}"
         id = name if name else admin
 
@@ -225,7 +225,7 @@ class Items(gpd.GeoDataFrame):
             data = json.loads(session.get(url).content)
         except Exception:
             # The data url is automatically build, it should be correct. From time
-            # to time the server are down from GADM side so we wrie down a specific
+            # to time the server are down from GADM side so we write down a specific
             # error message if something goes wrong
             raise Exception(
                 "We cannot retrieve the data from GADM server. "
@@ -237,6 +237,15 @@ class Items(gpd.GeoDataFrame):
         level_gdf = gpd.GeoDataFrame.from_features(data)
         level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
         gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
+
+        # workaround for the wrong naming convention in the geojson files
+        # https://gis.stackexchange.com/questions/467848/how-to-get-back-spaces-in-administrative-names-in-gadm-4-1
+        # it should disappear in the next version of GADM
+        # we are forced to retrieve all the names from the df (sourced from.gpkg) to replace the one from
+        # the geojson that are all in camelCase
+        complete_df = Names(name, admin, content_level=content_level, complete=True)
+        for i in range(int(content_level) + 1):
+            gdf[f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
 
         return gdf
 

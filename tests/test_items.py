@@ -87,6 +87,12 @@ def test_duplication(data_regression):
     data_regression.check(gdf.GID_0.tolist())
 
 
+def test_camelCase_names(data_regression):
+    """Test that camelCase names are replaced."""
+    gdf = pygadm.Items(admin="COD", content_level=1)
+    data_regression.check(gdf.NAME_0.tolist())
+
+
 def test_get_items():
     """Test the get_items function."""
     gdf1 = pygadm.Items(name="Singapore")
