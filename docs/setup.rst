@@ -1,7 +1,7 @@
 Installation
 ============
 
-Stable release 
+Stable release
 --------------
 
 install it using either ``pip`` or ``conda``:
@@ -11,7 +11,7 @@ install it using either ``pip`` or ``conda``:
    .. tab-item:: pip
 
       .. code-block:: console
-   
+
          pip install pygadm
 
    .. tab-item:: conda
@@ -27,8 +27,8 @@ The source of ``pygadm`` can be installed from the `GitHub repo <https://github.
 
 .. code-block:: console
 
-   python -m pip install git+git://github.com/12rambau/pygadm.git#egg=pygadm 
-   
+   python -m pip install git+git://github.com/12rambau/pygadm.git#egg=pygadm
+
 local development
 -----------------
 

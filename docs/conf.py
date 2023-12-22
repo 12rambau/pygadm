@@ -37,7 +37,7 @@ extensions = [
     "jupyter_sphinx",
     "autoapi.extension",
 ]
-templates_path = ["_templates"]
+templates_path = ["_template"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
 
 # -- Options for HTML output ---------------------------------------------------
@@ -60,6 +60,7 @@ html_theme_options = {
         "image_light": "logo.png",
         "image_dark": "logo.png",
     },
+    "footer_end": ["theme-version", "pypackage-credit"],
     "icon_links": [
         {
             "name": "GitHub",

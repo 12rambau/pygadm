@@ -1,14 +1,16 @@
 [build-system]
-requires = ["setuptools>=61.2", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "pygadm"
 version = "0.5.1"
 description = "Easy access to administrative boundary defined by GADM from Python scripts"
-keywords = ["Python"]
+keywords = [
+  "Python"
+]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.8",
@@ -16,17 +18,17 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-requires-python = ">=3.7.10"
+requires-python = ">=3.8"
 dependencies = [
-    "Deprecated",
-    "geopandas",
-    "pyarrow",
-    "requests-cache"
+  "deprecated>=1.2.14",
+  "geopandas",
+  "pyarrow",
+  "requests-cache"
 ]
 
 [[project.authors]]
 name = "Pierrick Rambaud"
-email = "pierrick.rambaud49@gmail.com"
+email = "pierrick.rambaud49@gmai.com"
 
 [project.license]
 text = "MIT"
@@ -37,65 +39,64 @@ content-type = "text/x-rst"
 
 [project.urls]
 Homepage = "https://github.com/12rambau/pygadm"
-Download = "https://github.com/12rambau/pygadm/archive/${metadata:version}.tar.gz"
 
 [project.optional-dependencies]
-dev = [
-    "pre-commit",
-    "commitizen",
-    "nox"
-]
 test = [
-    "pytest",
-    "pytest-sugar",
-    "pytest-cov",
-    "pytest-regressions>=2.4.3", # https://github.com/ESSS/pytest-regressions/issues/136
- ]
+  "pytest",
+  "pytest-sugar",
+  "pytest-cov",
+  "pytest-deadfixtures",
+  "pytest-regressions>=2.4.3", # https://github.com/ESSS/pytest-regressions/issues/136
+]
 doc = [
-    "sphinx<7", # https://github.com/pydata/pydata-sphinx-theme/issues/1404
-    "pydata-sphinx-theme",
-    "sphinx-copybutton",
-    "jupyter-sphinx",
-    "sphinx-design",
-    "ipyleaflet",
-    "geemap",
-    "sphinx-favicon",
-    "ipykernel",
-    "sphinx-autoapi",
-    "httplib2",
+  "sphinx<7",
+  "pydata-sphinx-theme",
+  "sphinx-copybutton",
+  "sphinx-design",
+  "sphinx-autoapi",
+  "jupyter-sphinx",
+  "ipyleaflet",
+  "geemap",
+  "sphinx-favicon",
+  "ipykernel",
+  "sphinx-autoapi",
+  "httplib2",
 ]
 
-[tool.setuptools]
-include-package-data = true
-packages = ["pygadm"]
-license-files = ["LICENSE"]
+[tool.hatch.build.targets.wheel]
+only-include = ["pygadm"]
 
-[tool.setuptools.package-data]
-pygadm = ["data/gadm_database.parquet", "data/gadm_continent.json"]
+[tool.hatch.envs.default]
+dependencies = [
+  "pre-commit",
+  "commitizen",
+  "nox"
+]
+post-install-commands = ["pre-commit install"]
 
 [tool.commitizen]
-changelog_file = "CHANGELOG.md"
 tag_format = "v$major.$minor.$patch$prerelease"
-update_changelog_on_bump = true
+update_changelog_on_bump = false
 version = "0.5.1"
-version_files = ["pyproject.toml:version", "pygadm/__init__.py:__version__"]
+version_files = [
+    "pyproject.toml:version",
+    "pygadm/__init__.py:__version__",
+    "CITATION.cff:version"
+]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
 
-[tool.coverage.run]
-source = ["pygadm"]
-
 [tool.ruff]
+ignore-init-module-imports = true
 fix = true
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = [
-    "E501",  # line too long | Black take care of it
+  "E501",  # line too long | Black take care of it
     "W605",  # invalid escape sequence | we escape specific characters for sphinx
     "D212", # Multi-line docstring | we use a different convention, too late
     "D101", # Missing docstring in public class | we use a different convention, too late
 ]
-exclude = ["setup.py"]
 
 [tool.ruff.flake8-quotes]
 docstring-quotes = "double"
@@ -103,8 +104,11 @@ docstring-quotes = "double"
 [tool.ruff.pydocstyle]
 convention = "google"
 
-[tool.codespell]
-skip = 'CHANGELOG.md,**/*.json,**/*.csv'
+[tool.coverage.run]
+source = ["pygadm"]
+
+[tool.doc8]
+ignore = ["D001"] # we follow a 1 line = 1 paragraph style
 
 [tool.mypy]
 scripts_are_modules = true
@@ -112,3 +116,9 @@ ignore_missing_imports = true
 install_types = true
 non_interactive = true
 warn_redundant_casts = true
+
+[tool.licensecheck]
+using = "PEP631"
+
+[tool.codespell]
+skip = 'CHANGELOG.md,**/*.json,**/*.csv'

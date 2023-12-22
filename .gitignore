@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*[Uu]ntitled*
 
 # C extensions
 *.so
@@ -51,6 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+.ruff_cache/
 
 # Translations
 *.mo
@@ -71,7 +71,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/source/_api
+docs/api/
 
 # PyBuilder
 target/
@@ -130,11 +130,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# visual studio files 
+# system IDE
 .vscode/
 
-# Mac OSX files 
-**/.DS_Store
-
-# ruff cache
-.ruff_cache
+# image tmp file
+*Zone.Identifier
