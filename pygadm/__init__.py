@@ -148,27 +148,6 @@ class AdmNames(pd.DataFrame):
         super().__init__(final_df)
 
 
-@deprecated(version="0.4.0", reason="Use the AdmNames class instead.")
-def get_names(
-    name: str = "", admin: str = "", content_level: int = -1, complete: bool = False
-) -> pd.DataFrame:
-    """
-    Return the list of names available in a administrative layer using the name or the administrative code.
-
-    Return a pandas DataFrame of the names ad GADM code of an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the corresponding level on the fly. The user can also request for a specific level for its content e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
-
-    Args:
-        name: The name of a administrative area. Cannot be set along with :code:`admin`.
-        admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`.
-        content_level: The level to use in the final dataset. Default to -1 (use level of the selected area).
-        complete: If True, the method will return all the names of the higher administrative areas. Default to False.
-
-    Returns:
-        The list of all the available names.
-    """
-    return AdmNames(name, admin, content_level, complete)
-
-
 @versionadded(version="0.4.0", reason="Add the AdmItems class.")
 class AdmItems(gpd.GeoDataFrame):
     def __init__(
@@ -271,17 +250,12 @@ def get_items(
     admin: Union[str, List[str]] = "",
     content_level: int = -1,
 ) -> gpd.GeoDataFrame:
-    """
-    Return the requested administrative boundaries using the name or the administrative code.
-
-    Return a Geopandas GeoDataFrame representing an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the area level on the fly. The user can also request for a specific level for the GeoDataFrame features e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
-
-    Args:
-        name: The name of an administrative area. Cannot be set along with :code:`admin`. it can be a list or a single name.
-        admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`. It can be a list or a single admin code.
-        content_level: The level to use in the final dataset. Default to -1 (use level from the area).
-
-    Returns:
-        The GeoDataFrame of the requested area with all the GADM attributes.
-    """
+    """Return the requested administrative boundaries using the name or the administrative code."""
     return AdmItems(name, admin, content_level)
+
+@deprecated(version="0.4.0", reason="Use the AdmNames class instead.")
+def get_names(
+    name: str = "", admin: str = "", content_level: int = -1, complete: bool = False
+) -> pd.DataFrame:
+    """Return the list of names available in a administrative layer using the name or the administrative code."""
+    return AdmNames(name, admin, content_level, complete)
