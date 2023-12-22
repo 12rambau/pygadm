@@ -245,7 +245,7 @@ class Items(gpd.GeoDataFrame):
         # the geojson that are all in camelCase
         complete_df = Names(name, admin, content_level=content_level, complete=True)
         for i in range(int(content_level) + 1):
-            gdf[f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
+            gdf.loc[:, (f"NAME_{i}")] = complete_df[f"NAME_{i}"].values
 
         return gdf
 
