@@ -59,4 +59,3 @@ repos:
       - id: check-merge-conflict
         stages: [commit]
         args: [--assume-in-merge]
-

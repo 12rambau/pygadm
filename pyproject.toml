@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
-    "PRogramming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.8"
 dependencies = [

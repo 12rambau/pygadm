@@ -9,5 +9,6 @@ github_repo_name: pygadm
 github_user: 12rambau
 project_name: pyGADM
 project_slug: pygadm
-short_description: Easy access to administrative boundary defined by GADM from Python
-    scripts
+short_description:
+  Easy access to administrative boundary defined by GADM from Python
+  scripts

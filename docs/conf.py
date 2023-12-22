@@ -37,7 +37,7 @@ extensions = [
     "jupyter_sphinx",
     "autoapi.extension",
 ]
-templates_path = ["_templates"]
+templates_path = ["_template"]
 exclude_patterns = ["**.ipynb_checkpoints"]  # when working in a Jupyter env.
 
 # -- Options for HTML output ---------------------------------------------------
