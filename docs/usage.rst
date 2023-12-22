@@ -9,7 +9,7 @@ The PyGADM lib can be used to extract information from the GADM dataset as GeoPa
 Countries
 ^^^^^^^^^
 
-Using the :code:`AdmItems` class, you can access an administrative area using either its name or its GADM identification code.
+Using the :code:`Items` class, you can access an administrative area using either its name or its GADM identification code.
 
 For example to extract the France geometry you can use the following code:
 
@@ -18,7 +18,7 @@ For example to extract the France geometry you can use the following code:
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(name="France")
+    gdf = pygadm.Items(name="France")
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
@@ -33,7 +33,7 @@ If you know the code of the area you try to use, you can use the GADM code inste
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(admin="FRA")
+    gdf = pygadm.Items(admin="FRA")
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
@@ -51,7 +51,7 @@ One is not bind to only request a country, any level can be accessed using both 
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(name="Corse-du-Sud")
+    gdf = pygadm.Items(name="Corse-du-Sud")
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery, zoom=8, center=[41.86, 8.97])
@@ -73,7 +73,7 @@ Using the :code:`content_level` option, one can require smaller administrative l
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(admin="FRA", content_level=2)
+    gdf = pygadm.Items(admin="FRA", content_level=2)
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[46.21, 2.21])
@@ -95,7 +95,7 @@ To perform regional analysis that aggregate multiple boundaries, you can now req
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(name=["France", "Germany"])
+    gdf = pygadm.Items(name=["France", "Germany"])
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=5, center=[48.83, 5.17])
@@ -121,7 +121,7 @@ It's possible to request all countries from one single continent using one of th
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(name="south america")
+    gdf = pygadm.Items(name="south america")
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=2, center=[-20.30, -59.32])
@@ -136,7 +136,7 @@ It's possible to request all countries from one single continent using one of th
 Find administrative names
 -------------------------
 
-To get the available name and GADM code in a administrative layer you can use the :code:`AdmNames` class with the same parameters. Use then these names in a :code:`AdmItems` request to get the geometry.
+To get the available name and GADM code in a administrative layer you can use the :code:`Names` class with the same parameters. Use then these names in a :code:`Items` request to get the geometry.
 
 For example to get the name and codes of all the departments in France you can run:
 
@@ -144,7 +144,7 @@ For example to get the name and codes of all the departments in France you can r
 
     import pygadm
 
-    pygadm.AdmNames(admin="FRA", content_level=2)
+    pygadm.Names(admin="FRA", content_level=2)
 
 .. note::
 
@@ -152,7 +152,7 @@ For example to get the name and codes of all the departments in France you can r
 
     .. code-block:: python
 
-        pygadm.AdmNames()
+        pygadm.Names()
 
 
 Google Earth engine
@@ -172,7 +172,7 @@ If you want to use this lib with GEE, install the "earthengine-api" package in y
 
     ee.Initialize()
 
-    gdf = pygadm.AdmItems(name="Corse-du-Sud")
+    gdf = pygadm.Items(name="Corse-du-Sud")
 
     # transform into an ee.FeatureCollection
     fc = ee.FeatureCollection(gdf.__geo_interface__)
@@ -197,7 +197,7 @@ Use the :code:`simplify` method from GeoPandas (more information `here <https://
 
     ee.Initialize()
 
-    gdf = pygadm.AdmItems(name="France")
+    gdf = pygadm.Items(name="France")
 
     # reduce resolution
     gdf.geometry = gdf.geometry.simplify(tolerance=.001)
@@ -219,7 +219,7 @@ Duplication issue
 
 .. warning::
 
-    The names of countries are all unique but not the smaller administrative layers. If you request a small area using name, make sure it's the one you are looking for before running your workflow. If it's not the case, use the :code:`AdmNames` method to get the administrative code associated to the requested names, they are all unique.
+    The names of countries are all unique but not the smaller administrative layers. If you request a small area using name, make sure it's the one you are looking for before running your workflow. If it's not the case, use the :code:`Names` method to get the administrative code associated to the requested names, they are all unique.
 
 Let's demonstrate this behavior with the "Central" province of Singapore. First we try to load it using its name. It should return an error:
 
@@ -228,15 +228,15 @@ Let's demonstrate this behavior with the "Central" province of Singapore. First 
 
     import pygadm
 
-    gdf = pygadm.AdmItems(name="Central")
+    gdf = pygadm.Items(name="Central")
 
-As I don't know the GADM code I copy/paste the suggested code from the error message and filter it by `country ISO alpha-3 code <https://www.iban.com/country-codes>`__. the ISO code is always displayed in the second column of the :code:`AdmNames` output. All GADM code start with the country ISO code so you can use the provided cell for any admin level.
+As I don't know the GADM code I copy/paste the suggested code from the error message and filter it by `country ISO alpha-3 code <https://www.iban.com/country-codes>`__. the ISO code is always displayed in the second column of the :code:`Names` output. All GADM code start with the country ISO code so you can use the provided cell for any admin level.
 
 .. jupyter-execute::
 
     import pygadm
 
-    df = pygadm.AdmNames(name="Central")
+    df = pygadm.Names(name="Central")
     df = df[df.iloc[:,1].str.startswith("SGP")]
     df
 
@@ -247,7 +247,7 @@ I now know that the code is "SGP.1_1" for the Central province so I can run my i
     import pygadm
     from ipyleaflet import GeoJSON, Map, basemaps
 
-    gdf = pygadm.AdmItems(admin="SGP.1_1")
+    gdf = pygadm.Items(admin="SGP.1_1")
 
     # display it in a map
     m = Map(basemap=basemaps.Esri.WorldImagery,  zoom=11, center=[1.29, 103.83])
@@ -266,5 +266,5 @@ If you make an error when writing the name of your input, the error message will
 
     import pygadm
 
-    gdf = pygadm.AdmItems(name="Franc")
+    gdf = pygadm.Items(name="Franc")
 
