@@ -17,7 +17,7 @@ def test_file():
 
 def test_continent(dataframe_regression):
     """Check that the continent are working on the simplest."""
-    gdf = pygadm.AdmItems(name="antartica")
+    gdf = pygadm.Items(name="antartica")
     df = pd.concat([gdf.GID_0, gdf.bounds], axis=1)
     dataframe_regression.check(df)
 

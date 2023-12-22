@@ -40,8 +40,8 @@ def _df() -> pd.DataFrame:
     return pd.read_parquet(__gadm_data__)
 
 
-@versionadded(version="0.4.0", reason="Add the AdmNames class.")
-class AdmNames(pd.DataFrame):
+@versionadded(version="0.5.2", reason="Add the Names class.")
+class Names(pd.DataFrame):
     def __init__(
         self,
         name: str = "",
@@ -59,9 +59,6 @@ class AdmNames(pd.DataFrame):
             admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`.
             content_level: The level to use in the final dataset. Default to -1 (use level of the selected area).
             complete: If True, the method will return all the names of the higher administrative areas. Default to False.
-
-        Returns:
-            The list of all the available names.
         """
         # sanitary check on parameters
         if name and admin:
@@ -148,8 +145,8 @@ class AdmNames(pd.DataFrame):
         super().__init__(final_df)
 
 
-@versionadded(version="0.4.0", reason="Add the AdmItems class.")
-class AdmItems(gpd.GeoDataFrame):
+@versionadded(version="0.5.2", reason="Add the Items class.")
+class Items(gpd.GeoDataFrame):
     def __init__(
         self,
         name: Union[str, List[str]] = "",
@@ -244,6 +241,16 @@ class AdmItems(gpd.GeoDataFrame):
         return gdf
 
 
+@deprecated(version="0.5.2", reason="Use the Names class instead.")
+class AdmNames(Names):
+    pass
+
+
+@deprecated(version="0.5.2", reason="Use the Items class instead.")
+class AdmItems(Items):
+    pass
+
+
 @deprecated(version="0.4.0", reason="Use the AdmItems class instead.")
 def get_items(
     name: Union[str, List[str]] = "",
@@ -252,6 +259,7 @@ def get_items(
 ) -> gpd.GeoDataFrame:
     """Return the requested administrative boundaries using the name or the administrative code."""
     return AdmItems(name, admin, content_level)
+
 
 @deprecated(version="0.4.0", reason="Use the AdmNames class instead.")
 def get_names(
