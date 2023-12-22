@@ -4,24 +4,26 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygadm"
-version = "0.0.0"
+version = "0.5.1"
 description = "Easy access to administrative boundary defined by GADM from Python scripts"
 keywords = [
-  "skeleton",
   "Python"
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "PRogramming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.8"
 dependencies = [
-  "deprecated>=1.2.14"
+  "deprecated>=1.2.14",
+  "geopandas",
+  "pyarrow",
+  "requests-cache"
 ]
 
 [[project.authors]]
@@ -43,14 +45,22 @@ test = [
   "pytest",
   "pytest-sugar",
   "pytest-cov",
-  "pytest-deadfixtures"
+  "pytest-deadfixtures",
+  "pytest-regressions>=2.4.3", # https://github.com/ESSS/pytest-regressions/issues/136
 ]
 doc = [
-  "sphinx>=6.2.1",
+  "sphinx<7",
   "pydata-sphinx-theme",
   "sphinx-copybutton",
   "sphinx-design",
-  "sphinx-autoapi"
+  "sphinx-autoapi",
+  "jupyter-sphinx",
+  "ipyleaflet",
+  "geemap",
+  "sphinx-favicon",
+  "ipykernel",
+  "sphinx-autoapi",
+  "httplib2",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -67,11 +77,10 @@ post-install-commands = ["pre-commit install"]
 [tool.commitizen]
 tag_format = "v$major.$minor.$patch$prerelease"
 update_changelog_on_bump = false
-version = "0.0.0"
+version = "0.5.1"
 version_files = [
     "pyproject.toml:version",
     "pygadm/__init__.py:__version__",
-    "docs/conf.py:release",
     "CITATION.cff:version"
 ]
 
@@ -84,7 +93,9 @@ fix = true
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = [
   "E501",  # line too long | Black take care of it
-  "D212",  # Multi-line docstring | We use D213
+    "W605",  # invalid escape sequence | we escape specific characters for sphinx
+    "D212", # Multi-line docstring | we use a different convention, too late
+    "D101", # Missing docstring in public class | we use a different convention, too late
 ]
 
 [tool.ruff.flake8-quotes]
@@ -108,3 +119,6 @@ warn_redundant_casts = true
 
 [tool.licensecheck]
 using = "PEP631"
+
+[tool.codespell]
+skip = 'CHANGELOG.md,**/*.json,**/*.csv'

@@ -1,0 +1,23 @@
+{
+    "africa": [
+        "DZA", "AGO", "BEN", "BWA", "BFA", "BDI", "CPV", "CMR", "CAF", "ESH", "TCD", "COM", "COG", "COD", "DJI", "EGY", "GNQ", "ERI", "SWZ", "ETH", "GAB", "GMB", "GHA", "GIN", "GNB", "CIV", "KEN", "LSO", "LBR", "LBY", "MDG", "MWI", "MLI", "MRT", "MUS", "MYT", "MAR", "MOZ", "NAM", "NER", "NGA", "REU", "RWA", "STP", "SEN", "SYC", "SLE", "SOM", "ZAF", "SSD", "SDN", "TZA", "TGO", "TUN", "UGA", "ZMB", "ZWE"
+    ],
+    "asia": [
+        "AFG", "ARM", "AZE", "BGD", "BTN", "IOT", "BHR", "BRN", "KHM", "CHN", "IND", "IDN", "IRN", "IRQ", "ISR", "JPN", "JOR", "KAZ", "KWT", "KGZ", "LAO", "LBN", "MYS", "MDV", "MNG", "MMR", "NPL", "PRK", "OMN", "PAK", "PSE", "PHL", "QAT", "RUS", "SAU", "SGP", "KOR", "LKA", "SYR", "THA", "TWN", "TJK", "TLS", "TKM", "ARE", "UZB", "VNM", "YEM", "SJM", "XCA", "XPI", "Z01", "Z02", "Z03", "Z04", "Z05", "Z06", "Z07", "Z08", "Z09"
+    ],
+    "europe": [
+        "ALA", "ALB", "AND", "AUT", "BLR", "BEL", "BIH", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "FRO", "GEO", "GIB", "GGY", "DEU", "GRC", "HUN", "ISL", "IRL", "ITA", "LVA", "LIE", "LTU", "LUX", "MLT", "MDA", "MCO", "MNE", "NLD", "MKD", "NOR", "POL", "PRT", "ROU", "SMR", "SRB", "SVK", "SVN", "ESP", "SWE", "CHE", "TUR", "UKR", "GBR", "VAT", "IMN", "JEY", "XAD", "ZNC", "XKO"
+    ],
+    "north america": [
+        "ATG", "BHS", "BRB", "BLZ", "CAN", "CRI", "CUB", "DMA", "DOM", "SLV", "GRD", "GTM", "HTI", "HND", "JAM", "MEX", "NIC", "PAN", "KNA", "LCA", "VCT", "TTO", "USA", "AIA", "ABW", "BMU", "BES", "VGB", "CYM", "XCL", "CUW", "GRL", "GLP", "MTQ", "MSR", "UMI", "PRI", "BLM", "MAF", "SPM", "SXM", "TCA", "VIR"
+    ],
+    "south america": [
+        "ARG", "BOL", "BRA", "CHL", "COL", "ECU", "GUY", "PRY", "PER", "SUR", "URY", "VEN", "BVT", "FLK", "GUF", "SGS", "SHN"
+    ],
+    "oceania": [
+        "AUS", "CCK", "CXR", "FJI", "KIR", "MHL", "FSM", "NRU", "NZL", "PLW", "PNG", "WSM", "SLB", "TON", "TUV", "VUT", "ASM", "COK", "PYF", "GUM", "NCL", "NIU", "NFK", "MNP", "PCN", "TKL", "WLF", "HMD", "XSP"
+    ],
+    "antartica": [
+        "ATA", "ATF"
+    ]
+}

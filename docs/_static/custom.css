@@ -1,6 +1,29 @@
-/* add dollar sign in console code-block */
-div.highlight-console pre span.go::before {
-  content: "$";
-  margin-right: 10px;
-  margin-left: 5px;
+/*******************************************************************************
+ *  make the footer inlined
+ */
+ .footer-item {
+    display: inline-block;
+  }
+  .footer-item:not(:last-child) {
+    border-right: 1px solid var(--pst-color-text-base);
+    margin-right: 0.5em;
+    padding-right: 0.5em;
+  }
+
+/*******************************************************************************
+ * custom display of tables in jupyter-sphinx
+ */
+.cell_output .output .dataframe {
+  width: 100%;
+}
+
+/*******************************************************************************
+ * Customize the colors of the website
+ */
+html[data-theme="light"] {
+  --pst-color-primary: #ec880e;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #ec880e;
 }
