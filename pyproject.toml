@@ -28,7 +28,7 @@ dependencies = [
 
 [[project.authors]]
 name = "Pierrick Rambaud"
-email = "pierrick.rambaud49@gmai.com"
+email = "pierrick.rambaud49@gmail.com"
 
 [project.license]
 text = "MIT"
