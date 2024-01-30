@@ -7,19 +7,19 @@
 
     <h1 align="center">pyGADM</h1>
 
-.. image:: https://img.shields.io/badge/License-MIT-yellow.svg?logo=opensourceinitiative&logoColor=white
+.. image:: https://img.shields.io/badge/License-MIT-yellow?logo=opensourceinitiative&logoColor=white
     :target: LICENSE
     :alt: License: MIT
 
-.. image:: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?logo=git&logoColor=white
+.. image:: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?logo=git&logoColor=white
    :target: https://conventionalcommits.org
    :alt: conventional commit
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+.. image:: https://img.shields.io/badge/code%20style-black-000000?logo=ford&logoColor=white
    :target: https://github.com/psf/black
    :alt: Black badge
 
-.. image:: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?logo=prettier&logoColor=white
+.. image:: https://img.shields.io/badge/code_style-prettier-ff69b4?logo=prettier&logoColor=white
    :target: https://github.com/prettier/prettier
    :alt: prettier badge
 
@@ -27,9 +27,13 @@
     :target: https://pre-commit.com/
     :alt: pre-commit
 
-.. image:: https://img.shields.io/pypi/v/pygadm?color=blue&logo=pypi&logoColor=white
+.. image:: https://img.shields.io/pypi/v/pygadm?color=blue&logo=python&logoColor=white
     :target: https://pypi.org/project/pygadm/
     :alt: PyPI version
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/pygadm?color=blue&logo=anaconda&logoColor=white
+    :target: https://anaconda.org/conda-forge/pygadm
+    :alt: Conda Version
 
 .. image:: https://img.shields.io/github/actions/workflow/status/12rambau/pygadm/unit.yaml?logo=github&logoColor=white
     :target: https://github.com/12rambau/pygadm/actions/workflows/unit.yaml
