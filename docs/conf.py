@@ -10,18 +10,15 @@ from pathlib import Path
 import ee
 import httplib2
 
-from pygadm import __author__, __version__
-
 package_path = os.path.abspath("../..")
 os.environ["PYTHONPATH"] = ":".join((package_path, os.environ.get("PYTHONPATH", "")))
 
 
 # -- Project information -------------------------------------------------------
-
-project = "PyGADM"
-copyright = f"2022-{datetime.now().year}, {__author__}"
-author = __author__
-release = __version__
+project = "pyGADM"
+author = "Pierrick Rambaud"
+copyright = f"2024-{datetime.now().year}, {author}"
+release = "0.5.2"
 
 # -- General configuration -----------------------------------------------------
 
