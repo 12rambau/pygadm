@@ -188,7 +188,7 @@ The GADM dataset are describing the geometry of administrative areas in high-res
 
 Use the :code:`simplify` method from GeoPandas (more information `here <https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.simplify.html>`__) to downscale the resolution of the geometries. The following example is needed if you want to work with France:
 
-.. jupyter-execute::
+.. code-block:: python
 
     import pygadm
     import geemap
