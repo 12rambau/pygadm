@@ -82,9 +82,7 @@ class Names(pd.DataFrame):
 
             if not is_in.any().any():
                 # find the 5 closest names/id
-                columns = [
-                    df[column.format(i)].dropna().str.lower().values for i in range(6)
-                ]
+                columns = [df[column.format(i)].dropna().str.lower().values for i in range(6)]
                 ids = np.unique(np.concatenate(columns))
                 close_ids = get_close_matches(id.lower(), ids, n=5)
                 if is_name is True:
@@ -102,9 +100,7 @@ class Names(pd.DataFrame):
 
             # load the max_level available in the requested area
             sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
-            max_level = next(
-                i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any()
-            )
+            max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
 
             # get the request level from user
             content_level, level = int(content_level), int(level)
@@ -185,9 +181,7 @@ class Items(gpd.GeoDataFrame):
 
         super().__init__(gdf)
 
-    def _items(
-        self, name: str = "", admin: str = "", content_level: int = -1
-    ) -> gpd.GeoDataFrame:
+    def _items(self, name: str = "", admin: str = "", content_level: int = -1) -> gpd.GeoDataFrame:
         """
         Return the requested administrative boundaries from the single name or administrative code.
 
