@@ -73,4 +73,4 @@ and then request area of interest from their name or GADM Id:
 Credits
 -------
 
-This package was created with `Copier <https://copier.readthedocs.io/en/latest/>`__ and the `@12rambau/pypackage <https://github.com/12rambau/pypackage>`__ 0.1.5 project template .
+This package was created with `Copier <https://copier.readthedocs.io/en/latest/>`__ and the `@12rambau/pypackage <https://github.com/12rambau/pypackage>`__ 0.1.11 project template.

@@ -19,10 +19,18 @@ def lint(session):
 
 @nox.session(reuse_venv=True)
 def test(session):
-    """Run all the test using the environment variable of the running machine."""
+    """Run the selected tests and report coverage in html."""
     session.install(".[test]")
     test_files = session.posargs or ["tests"]
-    session.run("pytest", "--color=yes", "--cov", "--cov-report=xml", *test_files)
+    session.run("pytest", "--color=yes", "--cov", "--cov-report=html", *test_files)
+
+
+@nox.session(reuse_venv=True, name="ci-test")
+def ci_test(session):
+    """Run all the test and report coverage in xml."""
+    session.install(".[test]")
+    session.posargs[0] if session.posargs else "default"
+    session.run("pytest", "--color=yes", "--cov", "--cov-report=xml")
 
 
 @nox.session(reuse_venv=True, name="dead-fixtures")
