@@ -48,6 +48,12 @@ def test_too_high(data_regression):
         data_regression.check(gdf.GID_1.tolist())
 
 
+def test_multi_word_name(dataframe_regression):
+    """Request a multi-word area."""
+    gdf = pygadm.Items(name="United States")
+    dataframe_regression.check(gdf[["NAME_0", "GID_0"]])
+
+
 def test_too_low(data_regression):
     """Request a sublevel lower than available in the area."""
     # request a level too low
@@ -109,3 +115,9 @@ def test_adm_items():
     with pytest.warns(DeprecationWarning):
         gdf2 = pygadm.AdmItems(name="Singapore")
         assert gdf1.equals(gdf2)
+
+
+def test_sub_admin(dataframe_regression):
+    """Request a sublevel."""
+    gdf = pygadm.Items(admin="SGP.1_1")
+    dataframe_regression.check(gdf[["GID_1", "NAME_1", "GID_0", "NAME_0"]])
