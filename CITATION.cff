@@ -5,7 +5,7 @@ authors:
     given-names: "Pierrick"
     orcid: "https://orcid.org/0000-0001-8764-5749"
 title: "pyGADM"
-version: "0.5.2"
+version: "0.5.3"
 doi: ""
 date-released: "2023-12-22"
 url: "https://github.com/12rambau/pygadm"
