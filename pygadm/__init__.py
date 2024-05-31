@@ -231,20 +231,16 @@ class Items(gpd.GeoDataFrame):
         level_gdf = gpd.GeoDataFrame.from_features(data)
         level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
 
-        # as explained in the next comment data from the geojson are completely broken
-        # to make sure the fullmatch works we need to replace the name with full camelcas alternative.
-        # should be removed once the next version of GADM is released.
-        corrected_id = id.title().replace(" ", "")
-        gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(corrected_id, case=False)]
-
         # workaround for the wrong naming convention in the geojson files
         # https://gis.stackexchange.com/questions/467848/how-to-get-back-spaces-in-administrative-names-in-gadm-4-1
         # it should disappear in the next version of GADM
         # we are forced to retrieve all the names from the df (sourced from.gpkg) to replace the one from
         # the geojson that are all in camelCase
-        complete_df = Names(name, admin, content_level=content_level, complete=True)
+        complete_df = Names(admin=iso_3, content_level=content_level, complete=True)
         for i in range(int(content_level) + 1):
-            gdf.loc[:, (f"NAME_{i}")] = complete_df[f"NAME_{i}"].values
+            level_gdf.loc[:, f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
+
+        gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
 
         return gdf
 
