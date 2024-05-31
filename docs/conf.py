@@ -61,7 +61,7 @@ html_theme_options = {
         },
         {
             "name": "Pypi",
-            "url": "https://pypi.org",
+            "url": "https://pypi.org/project/pygadm",
             "icon": "fa-brands fa-python",
         },
     ],
