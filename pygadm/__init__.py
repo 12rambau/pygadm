@@ -229,14 +229,19 @@ class Items(gpd.GeoDataFrame):
             )
 
         level_gdf = gpd.GeoDataFrame.from_features(data)
-        level_gdf.rename(columns={"COUNTRY": "NAME_0"}, inplace=True)
+        level_gdf = level_gdf.rename(columns={"COUNTRY": "NAME_0"})
+
+        # countries can embed multiple iso codes as some places are disputed so we need to gather them
+        # from the geojson file
+        isos = level_gdf.GID_0.dropna().unique()
 
         # workaround for the wrong naming convention in the geojson files
         # https://gis.stackexchange.com/questions/467848/how-to-get-back-spaces-in-administrative-names-in-gadm-4-1
         # it should disappear in the next version of GADM
         # we are forced to retrieve all the names from the df (sourced from.gpkg) to replace the one from
-        # the geojson that are all in camelCase
-        complete_df = Names(admin=iso_3, content_level=content_level, complete=True)
+        # the geojson that are all in camelCase.
+        df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
+        complete_df = pd.concat(df_list)
         for i in range(int(content_level) + 1):
             level_gdf.loc[:, f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
 
