@@ -43,7 +43,6 @@ Homepage = "https://github.com/12rambau/pygadm"
 [project.optional-dependencies]
 test = [
   "pytest",
-  "pytest-sugar",
   "pytest-cov",
   "pytest-deadfixtures",
   "pytest-regressions>=2.4.3", # https://github.com/ESSS/pytest-regressions/issues/136
@@ -70,7 +69,7 @@ only-include = ["pygadm"]
 dependencies = [
   "pre-commit",
   "commitizen",
-  "nox"
+  "nox[uv]"
 ]
 post-install-commands = ["pre-commit install"]
 
@@ -87,31 +86,27 @@ version_files = [
 [tool.pytest.ini_options]
 testpaths = "tests"
 
-[tool.black]
-line-length = 100
-
 [tool.ruff]
-ignore-init-module-imports = true
+line-length = 100
 fix = true
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = [
   "E501",  # line too long | Black take care of it
-    "W605",  # invalid escape sequence | we escape specific characters for sphinx
-    "D212", # Multi-line docstring | we use a different convention, too late
-    "D101", # Missing docstring in public class | we use a different convention, too late
+  "W605",  # invalid escape sequence | we escape specific characters for sphinx
+  "D212", # Multi-line docstring | we use a different convention, too late
+  "D101", # Missing docstring in public class | we use a different convention, too late
 ]
 
-[tool.ruff.flake8-quotes]
+[tool.ruff.lint.flake8-quotes]
 docstring-quotes = "double"
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.coverage.run]
 source = ["pygadm"]
-
-[tool.doc8]
-ignore = ["D001"] # we follow a 1 line = 1 paragraph style
 
 [tool.mypy]
 scripts_are_modules = true
@@ -119,9 +114,6 @@ ignore_missing_imports = true
 install_types = true
 non_interactive = true
 warn_redundant_casts = true
-
-[tool.licensecheck]
-using = "PEP631"
 
 [tool.codespell]
 skip = 'CHANGELOG.md,**/*.json,**/*.csv'

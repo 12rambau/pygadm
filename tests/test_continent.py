@@ -1,4 +1,5 @@
 """Tests of the continents submanagement."""
+
 import json
 from pathlib import Path
 

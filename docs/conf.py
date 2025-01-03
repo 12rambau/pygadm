@@ -64,6 +64,12 @@ html_theme_options = {
             "url": "https://pypi.org/project/pygadm",
             "icon": "fa-brands fa-python",
         },
+        {
+            "name": "Conda",
+            "url": "https://anaconda.org/conda-forge/pygadm",
+            "icon": "fa-custom fa-conda",
+            "type": "fontawesome",
+        },
     ],
 }
 html_context = {
