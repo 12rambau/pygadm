@@ -22,7 +22,6 @@ from pygadm import __gadm_version__
 parser = argparse.ArgumentParser(description=__doc__, usage="refresh_database")
 
 if __name__ == "__main__":
-
     # read arguments
     parser.add_argument(
         "-f",
@@ -41,7 +40,6 @@ if __name__ == "__main__":
 
     # read the all the geodata available in the server at once
     with tempfile.TemporaryDirectory() as tmp_dir:
-
         # check if a download is required
         if vars(args)["gadm_src"] is not None:
             zip_file = Path(vars(args)["gadm_src"])
