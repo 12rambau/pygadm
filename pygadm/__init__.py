@@ -210,8 +210,8 @@ class Items(gpd.GeoDataFrame):
         content_level = df.columns[0].replace("NAME_", "")
 
         # checks have already been performed in Names
-        column = "NAME_{}" if name else "GID_{}"
-        id = name if name else admin
+        "NAME_{}" if name else "GID_{}"
+        name if name else admin
 
         # read the data from server
         url = __gadm_url__.format(iso_3, content_level)
@@ -251,8 +251,7 @@ class Items(gpd.GeoDataFrame):
         shared_cols = [f"GID_{i}" for i in range(int(content_level) + 1)]
         # Camel-case columns to drop
         drop_cols = [f"NAME_{i}" for i in range(int(content_level) + 1)]
-        gdf = pd.merge(level_gdf.drop(drop_cols, axis=1), complete_df,
-                       how='inner', on=shared_cols)
+        gdf = pd.merge(level_gdf.drop(drop_cols, axis=1), complete_df, how="inner", on=shared_cols)
 
         return gdf
 
