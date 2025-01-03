@@ -245,7 +245,14 @@ class Items(gpd.GeoDataFrame):
         for i in range(int(content_level) + 1):
             level_gdf.loc[:, f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
 
-        gdf = level_gdf[level_gdf[column.format(level)].str.fullmatch(id, case=False)]
+        df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
+        complete_df = pd.concat(df_list)
+        # GID columns to merge on; they (should) match exactly
+        shared_cols = [f"GID_{i}" for i in range(int(content_level) + 1)]
+        # Camel-case columns to drop
+        drop_cols = [f"NAME_{i}" for i in range(int(content_level) + 1)]
+        gdf = pd.merge(level_gdf.drop(drop_cols, axis=1), complete_df,
+                       how='inner', on=shared_cols)
 
         return gdf
 
