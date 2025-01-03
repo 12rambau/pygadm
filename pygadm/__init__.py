@@ -210,8 +210,8 @@ class Items(gpd.GeoDataFrame):
         content_level = df.columns[0].replace("NAME_", "")
 
         # checks have already been performed in Names
-        "NAME_{}" if name else "GID_{}"
-        name if name else admin
+        column = "NAME_{}" if name else "GID_{}"
+        id = name if name else admin
 
         # read the data from server
         url = __gadm_url__.format(iso_3, content_level)
@@ -252,6 +252,9 @@ class Items(gpd.GeoDataFrame):
         # Camel-case columns to drop
         drop_cols = [f"NAME_{i}" for i in range(int(content_level) + 1)]
         gdf = pd.merge(level_gdf.drop(drop_cols, axis=1), complete_df, how="inner", on=shared_cols)
+
+        # now we can filter this dataframe with the appropriate name or admin code
+        gdf = gdf[gdf[column.format(level)].str.fullmatch(id, case=False)]
 
         return gdf
 
