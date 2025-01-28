@@ -72,7 +72,7 @@ and then request area of interest from their name or GADM Id:
 
    import pygadm
 
-   gdf = pygadm.AdmItems(name="Singapore", content_level=1)
+   gdf = pygadm.Items(name="Singapore", content_level=1)
 
 Credits
 -------
