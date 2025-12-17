@@ -23,7 +23,8 @@ dependencies = [
   "deprecated>=1.2.14",
   "geopandas",
   "pyarrow",
-  "requests-cache"
+  "requests-cache",
+  "httpx"
 ]
 
 [[project.authors]]
