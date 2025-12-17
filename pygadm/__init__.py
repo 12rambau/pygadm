@@ -6,6 +6,7 @@ This lib provides access to GADM datasets from a Python script without downloadi
 The data are freely available for academic use and other non-commercial use. Redistribution, or commercial use is not allowed without prior permission. See the license of the GADM project for more details.
 """
 
+import asyncio
 import json
 import warnings
 from difflib import get_close_matches
@@ -15,6 +16,7 @@ from pathlib import Path
 from typing import List, Union
 
 import geopandas as gpd
+import httpx
 import numpy as np
 import pandas as pd
 from deprecated.sphinx import deprecated, versionadded
@@ -82,7 +84,9 @@ class Names(pd.DataFrame):
 
             if not is_in.any().any():
                 # find the 5 closest names/id
-                columns = [df[column.format(i)].dropna().str.lower().values for i in range(6)]
+                columns = [
+                    df[column.format(i)].dropna().str.lower().values for i in range(6)
+                ]
                 ids = np.unique(np.concatenate(columns))
                 close_ids = get_close_matches(id.lower(), ids, n=5)
                 if is_name is True:
@@ -100,7 +104,9 @@ class Names(pd.DataFrame):
 
             # load the max_level available in the requested area
             sub_df = df[df[column.format(level)].str.fullmatch(id, case=False)]
-            max_level = next(i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any())
+            max_level = next(
+                i for i in reversed(range(6)) if (sub_df[f"GID_{i}"] != "").any()
+            )
 
             # get the request level from user
             content_level, level = int(content_level), int(level)
@@ -139,6 +145,85 @@ class Names(pd.DataFrame):
         final_df = sub_df if complete is True else sub_df[columns]
 
         super().__init__(final_df)
+
+
+def _validate_and_prepare(name: str, admin: str, content_level: int) -> tuple:
+    """
+    Validate inputs and prepare metadata for fetching GADM data.
+
+    Args:
+        name: The name of an administrative area.
+        admin: The admin code of an administrative area.
+        content_level: The level to use in the final dataset.
+
+    Returns:
+        Tuple of (iso_3, content_level, level, column, id) needed for fetching and filtering.
+    """
+    # Call to Names without level to raise an error if the requested level won't work
+    df = Names(name, admin)
+    if len(df) > 1:
+        raise ValueError(
+            f'The requested name ("{name}") is not unique ({len(df)} results). '
+            'To retrieve it, please use the "admin" parameter instead. '
+            "If you don't know the GADM code, use the following code, "
+            f'it will return the GADM codes as well: "Names(name="{name}")"'
+        )
+    level = df.columns[0].replace("NAME_", "")
+    iso_3 = df.iloc[0][f"GID_{level}"][:3]
+
+    # Now load the useful one to get content_level
+    df = Names(name, admin, content_level)
+    content_level = df.columns[0].replace("NAME_", "")
+
+    # Checks have already been performed in Names
+    column = "NAME_{}" if name else "GID_{}"
+    id = name if name else admin
+
+    return iso_3, content_level, level, column, id
+
+
+def _process_geojson_to_gdf(
+    data: dict, content_level: str, level: str, column: str, id: str
+) -> gpd.GeoDataFrame:
+    """
+    Process GeoJSON data into a filtered GeoDataFrame.
+
+    Args:
+        data: The GeoJSON data dictionary.
+        content_level: The content level as a string.
+        level: The level of the requested area.
+        column: The column name pattern to use for filtering.
+        id: The id (name or admin code) to filter by.
+
+    Returns:
+        Filtered GeoDataFrame with corrected names.
+    """
+    level_gdf = gpd.GeoDataFrame.from_features(data)
+    level_gdf = level_gdf.rename(columns={"COUNTRY": "NAME_0"})
+
+    # Countries can embed multiple iso codes as some places are disputed
+    isos = level_gdf.GID_0.dropna().unique()
+
+    # Workaround for wrong naming convention in geojson files
+    # https://gis.stackexchange.com/questions/467848/how-to-get-back-spaces-in-administrative-names-in-gadm-4-1
+    # Get all names from the database to replace camelCase names from geojson
+    df_list = [
+        Names(admin=iso, content_level=content_level, complete=True) for iso in isos
+    ]
+    complete_df = pd.concat(df_list)
+
+    # GID columns to merge on
+    shared_cols = [f"GID_{i}" for i in range(int(content_level) + 1)]
+    # Camel-case columns to drop
+    drop_cols = [f"NAME_{i}" for i in range(int(content_level) + 1)]
+    gdf = pd.merge(
+        level_gdf.drop(drop_cols, axis=1), complete_df, how="inner", on=shared_cols
+    )
+
+    # Filter with the appropriate name or admin code
+    gdf = gdf[gdf[column.format(level)].str.fullmatch(id, case=False)]
+
+    return gdf
 
 
 @versionadded(version="0.5.2", reason="Add the Items class.")
@@ -181,7 +266,9 @@ class Items(gpd.GeoDataFrame):
 
         super().__init__(gdf)
 
-    def _items(self, name: str = "", admin: str = "", content_level: int = -1) -> gpd.GeoDataFrame:
+    def _items(
+        self, name: str = "", admin: str = "", content_level: int = -1
+    ) -> gpd.GeoDataFrame:
         """
         Return the requested administrative boundaries from the single name or administrative code.
 
@@ -193,34 +280,16 @@ class Items(gpd.GeoDataFrame):
         Returns:
             The GeoDataFrame of the requested area with all the GADM attributes.
         """
-        # call to Names without level to raise an error if the requested level won't work
-        df = Names(name, admin)
-        if len(df) > 1:
-            raise ValueError(
-                f'The requested name ("{name}") is not unique ({len(df)} results). '
-                'To retrieve it, please use the "admin" parameter instead. '
-                "If you don't know the GADM code, use the following code, "
-                f'it will return the GADM codes as well: "Names(name="{name}")"'
-            )
-        level = df.columns[0].replace("NAME_", "")
-        iso_3 = df.iloc[0][f"GID_{level}"][:3]
+        # Validate and prepare metadata
+        iso_3, content_level, level, column, id = _validate_and_prepare(
+            name, admin, content_level
+        )
 
-        # now load the useful one to get content_level
-        df = Names(name, admin, content_level)
-        content_level = df.columns[0].replace("NAME_", "")
-
-        # checks have already been performed in Names
-        column = "NAME_{}" if name else "GID_{}"
-        id = name if name else admin
-
-        # read the data from server
+        # Read the data from server
         url = __gadm_url__.format(iso_3, content_level)
         try:
             data = json.loads(session.get(url).content)
         except Exception:
-            # The data url is automatically build, it should be correct. From time
-            # to time the server are down from GADM side so we write down a specific
-            # error message if something goes wrong
             raise Exception(
                 "We cannot retrieve the data from GADM server. "
                 f"Try to manually open the following link: {url}. "
@@ -228,35 +297,8 @@ class Items(gpd.GeoDataFrame):
                 "If it works please open an issue on our repository: https://github.com/12rambau/pygadm/issues."
             )
 
-        level_gdf = gpd.GeoDataFrame.from_features(data)
-        level_gdf = level_gdf.rename(columns={"COUNTRY": "NAME_0"})
-
-        # countries can embed multiple iso codes as some places are disputed so we need to gather them
-        # from the geojson file
-        isos = level_gdf.GID_0.dropna().unique()
-
-        # workaround for the wrong naming convention in the geojson files
-        # https://gis.stackexchange.com/questions/467848/how-to-get-back-spaces-in-administrative-names-in-gadm-4-1
-        # it should disappear in the next version of GADM
-        # we are forced to retrieve all the names from the df (sourced from.gpkg) to replace the one from
-        # the geojson that are all in camelCase.
-        df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
-        complete_df = pd.concat(df_list)
-        for i in range(int(content_level) + 1):
-            level_gdf.loc[:, f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
-
-        df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
-        complete_df = pd.concat(df_list)
-        # GID columns to merge on; they (should) match exactly
-        shared_cols = [f"GID_{i}" for i in range(int(content_level) + 1)]
-        # Camel-case columns to drop
-        drop_cols = [f"NAME_{i}" for i in range(int(content_level) + 1)]
-        gdf = pd.merge(level_gdf.drop(drop_cols, axis=1), complete_df, how="inner", on=shared_cols)
-
-        # now we can filter this dataframe with the appropriate name or admin code
-        gdf = gdf[gdf[column.format(level)].str.fullmatch(id, case=False)]
-
-        return gdf
+        # Process and return the GeoDataFrame
+        return _process_geojson_to_gdf(data, content_level, level, column, id)
 
 
 @deprecated(version="0.5.2", reason="Use the Names class instead.")
@@ -285,3 +327,132 @@ def get_names(
 ) -> pd.DataFrame:
     """Return the list of names available in a administrative layer using the name or the administrative code."""
     return AdmNames(name, admin, content_level, complete)
+
+
+@versionadded(version="0.6.0", reason="Add async support.")
+class AsyncItems(gpd.GeoDataFrame):
+    """
+    Async version of Items class.
+
+    Downloads and parses GeoJSON files asynchronously.
+    """
+
+    def __init__(self, gdf: gpd.GeoDataFrame):
+        """Initialize from an existing GeoDataFrame."""
+        super().__init__(gdf)
+
+    @classmethod
+    async def create(
+        cls,
+        name: Union[str, List[str]] = "",
+        admin: Union[str, List[str]] = "",
+        content_level: int = -1,
+        timeout: float = 30.0,
+    ):
+        """
+        Asynchronously create and return administrative boundaries.
+
+        Example:
+            >>> task = asyncio.create_task(AsyncItems.create(name="France"))
+            >>> # To cancel:
+            >>> task.cancel()
+            >>> try:
+            ...     await task
+            ... except asyncio.CancelledError:
+            ...     print("Download was cancelled")
+
+        Args:
+            name: The name of an administrative area. Cannot be set along with :code:`admin`.
+                  It can be a list or a single name.
+            admin: The id of an administrative area in the GADM nomenclature.
+                   Cannot be set along with :code:`name`. It can be a list or a single admin code.
+            content_level: The level to use in the final dataset. Default to -1 (use level from the area).
+            timeout: Timeout in seconds for each HTTP request. Default is 30.0.
+
+        Returns:
+            An AsyncItems GeoDataFrame with the requested administrative boundaries.
+
+        Raises:
+            asyncio.CancelledError: If the operation is cancelled.
+            asyncio.TimeoutError: If a download exceeds the timeout.
+            ValueError: If both name and admin are set, or neither is set.
+        """
+        # Set up the loop
+        names = [name] if isinstance(name, str) else name
+        admins = [admin] if isinstance(admin, str) else admin
+
+        # Check that they are not all empty
+        if names == [""] == admins:
+            raise ValueError('at least "name" or "admin" need to be set.')
+
+        # Special parsing for continents
+        if len(names) == 1 and names[0].lower() in __gadm_continent__:
+            admins = [c for c in __gadm_continent__[names[0].lower()]]
+            names = [""]
+
+        # Create tasks for all requested items
+        tasks = [
+            cls._items_async(n, a, content_level, timeout)
+            for a, n in product(admins, names)
+        ]
+
+        # Gather all results - this will propagate CancelledError if any task is cancelled
+        gdf_list = await asyncio.gather(*tasks)
+
+        # Avoid concat if not needed for speed boost
+        gdf = gdf_list[0] if len(gdf_list) == 1 else pd.concat(gdf_list)
+
+        return cls(gdf)
+
+    @staticmethod
+    async def _items_async(
+        name: str = "",
+        admin: str = "",
+        content_level: int = -1,
+        timeout: float = 120.0,
+    ) -> gpd.GeoDataFrame:
+        """
+        Asynchronously fetch and return administrative boundaries from a single name or admin code.
+
+        Args:
+            name: The name of an administrative area. Cannot be set along with :code:`admin`.
+            admin: The id of an administrative area in the GADM nomenclature.
+                   Cannot be set along with :code:`name`.
+            content_level: The level to use in the final dataset. Default to -1.
+            timeout: Timeout in seconds for HTTP requests.
+
+        Returns:
+            The GeoDataFrame of the requested area with all the GADM attributes.
+        """
+        # Validate and prepare metadata
+        iso_3, content_level, level, column, id = _validate_and_prepare(
+            name, admin, content_level
+        )
+
+        # Read the data from server asynchronously
+        url = __gadm_url__.format(iso_3, content_level)
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                # This is cancellable - if task.cancel() is called, it will raise CancelledError
+                response = await client.get(url)
+                response.raise_for_status()
+                data = json.loads(response.content)
+        except asyncio.CancelledError:
+            # Re-raise to propagate cancellation
+            raise
+        except httpx.TimeoutException:
+            raise asyncio.TimeoutError(
+                f"Request to {url} timed out after {timeout} seconds. "
+                "Try increasing the timeout parameter."
+            )
+        except Exception as e:
+            raise Exception(
+                "We cannot retrieve the data from GADM server. "
+                f"Try to manually open the following link: {url}. "
+                "If it doesn't work, the error is coming from GADM servers. "
+                "If it works please open an issue on our repository: "
+                f"https://github.com/12rambau/pygadm/issues. Error: {e}"
+            )
+
+        # Process and return the GeoDataFrame
+        return _process_geojson_to_gdf(data, content_level, level, column, id)
