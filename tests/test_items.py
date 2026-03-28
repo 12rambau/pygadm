@@ -121,3 +121,31 @@ def test_sub_admin(dataframe_regression):
     """Request a sublevel."""
     gdf = pygadm.Items(admin="SGP.1_1")
     dataframe_regression.check(gdf[["GID_1", "NAME_1", "GID_0", "NAME_0"]])
+
+
+def test_sub_admin_resets_filtered_index():
+    """Filtered single-area results should keep a zero-based index."""
+    gdf = pygadm.Items(admin="SGP.5_1")
+
+    assert gdf.GID_1.tolist() == ["SGP.5_1"]
+    assert list(gdf.index) == [0]
+    assert gdf.index.name is None
+
+
+def test_items_can_subset_columns():
+    """Test GeoDataFrame column slicing without raising."""
+    gdf = pygadm.Items(admin="IND", content_level=1)
+    sub = gdf[["GID_0", "NAME_0", "NAME_1"]]
+    assert list(sub.columns) == ["GID_0", "NAME_0", "NAME_1"]
+
+
+def test_items_drop_does_not_crash():
+    """Items should support GeoDataFrame.drop without raising (GeoPandas reconstruction path)."""
+    gdf = pygadm.Items(admin="IND", content_level=1)
+    _ = gdf.drop(columns=["NAME_1"])
+
+
+def test_items_copy_does_not_crash():
+    """Items should support GeoDataFrame.copy without raising (GeoPandas reconstruction path)."""
+    gdf = pygadm.Items(admin="IND", content_level=1)
+    _ = gdf.copy()

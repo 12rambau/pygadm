@@ -145,20 +145,46 @@ class Names(pd.DataFrame):
 class Items(gpd.GeoDataFrame):
     def __init__(
         self,
+        *args,
         name: Union[str, List[str]] = "",
         admin: Union[str, List[str]] = "",
         content_level: int = -1,
+        **kwargs,
     ):
         """
         Return the requested administrative boundaries using the name or the administrative code.
 
         Return a Geopandas GeoDataFrame representing an administrative region. The region can be requested either by its "name" or its "admin", the lib will identify the area level on the fly. The user can also request for a specific level for the GeoDataFrame features e.g. get all admin level 1 of a country. If nothing is set we will infer the level of the item and if the level is higher than the found item, it will be ignored. If Nothing is found the method will return an error.
 
+        Note: supports legacy positional calls (name, admin, content_level) and GeoPandas internal reconstruction.
+
         Args:
+            *args: Used for legacy positional calls (name, admin, content_level) or GeoPandas internal reconstruction.
+            **kwargs: Used by GeoPandas internal reconstruction (e.g., data/geometry/crs); bypasses pygadm initialization.
             name: The name of an administrative area. Cannot be set along with :code:`admin`. it can be a list or a single name.
             admin: The id of an administrative area in the GADM nomenclature. Cannot be set along with :code:`name`. It can be a list or a single admin code.
             content_level: The level to use in the final dataset. Default to -1 (use level from the area).
         """
+        # Legacy positional API support: Items(name, admin, content_level)
+        # (used by deprecated wrappers like get_items / AdmItems).
+        if args and not kwargs and isinstance(args[0], (str, list)):
+            if len(args) > 3:
+                raise TypeError(
+                    "Items() takes at most 3 positional arguments (name, admin, content_level)."
+                )
+            if len(args) >= 1:
+                name = args[0]
+            if len(args) >= 2:
+                admin = args[1]
+            if len(args) == 3:
+                content_level = args[2]
+            args = ()
+
+        # Bypass pygadm init when GeoPandas reconstructs this GeoDataFrame internally.
+        if args or kwargs:
+            super().__init__(*args, **kwargs)
+            return
+
         # set up the loop
         names = [name] if isinstance(name, str) else name
         admins = [admin] if isinstance(admin, str) else admin
@@ -177,7 +203,16 @@ class Items(gpd.GeoDataFrame):
         gdf_list = [self._items(n, a, content_level) for a, n in product(admins, names)]
 
         # avoid concat if not needed for speed boost
-        gdf = gdf_list[0] if len(gdf_list) == 1 else pd.concat(gdf_list)
+        # Re-wrap concat output as GeoDataFrame to preserve geometry metadata across versions.
+        gdf = (
+            gdf_list[0]
+            if len(gdf_list) == 1
+            else gpd.GeoDataFrame(pd.concat(gdf_list, ignore_index=True))
+        )
+
+        # Keep output index stable for regression tests and user expectations.
+        gdf = gdf.reset_index(drop=True)
+        gdf.index.name = None
 
         super().__init__(gdf)
 
@@ -241,12 +276,8 @@ class Items(gpd.GeoDataFrame):
         # we are forced to retrieve all the names from the df (sourced from.gpkg) to replace the one from
         # the geojson that are all in camelCase.
         df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
-        complete_df = pd.concat(df_list)
-        for i in range(int(content_level) + 1):
-            level_gdf.loc[:, f"NAME_{i}"] = complete_df[f"NAME_{i}"].values
-
-        df_list = [Names(admin=iso, content_level=content_level, complete=True) for iso in isos]
-        complete_df = pd.concat(df_list)
+        # Merge names by GID_* keys (not positional assignment) to handle disputed-territory GeoJSON with multiple ISO codes.
+        complete_df = pd.concat(df_list, ignore_index=True)
         # GID columns to merge on; they (should) match exactly
         shared_cols = [f"GID_{i}" for i in range(int(content_level) + 1)]
         # Camel-case columns to drop

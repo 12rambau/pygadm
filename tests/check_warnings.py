@@ -23,8 +23,8 @@ def check_warnings(file: Path) -> int:
     # find the file where all the known warnings are stored
     warning_file = Path(__file__).parent / "data" / "warning_list.txt"
 
-    test_warnings = file.read_text().strip().split("\n")
-    ref_warnings = warning_file.read_text().strip().split("\n")
+    test_warnings = file.read_text().splitlines()
+    ref_warnings = warning_file.read_text().splitlines()
 
     print(
         f'Checking build warnings in file: "{file}" and comparing to expected '
