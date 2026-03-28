@@ -49,6 +49,7 @@ test = [
 ]
 doc = [
   "sphinx<7",
+  "astroid<4",
   "pydata-sphinx-theme",
   "sphinx-copybutton",
   "sphinx-design",
@@ -116,4 +117,5 @@ non_interactive = true
 warn_redundant_casts = true
 
 [tool.codespell]
+ignore-words-list = 'astroid'
 skip = 'CHANGELOG.md,**/*.json,**/*.csv'

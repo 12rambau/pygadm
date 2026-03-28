@@ -287,9 +287,6 @@ class Items(gpd.GeoDataFrame):
         # now we can filter this dataframe with the appropriate name or admin code
         gdf = gdf[gdf[column.format(level)].str.fullmatch(id, case=False)]
 
-        gdf = gdf.reset_index(drop=True)
-        gdf.index.name = None
-
         return gdf
 
 

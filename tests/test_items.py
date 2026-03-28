@@ -123,6 +123,15 @@ def test_sub_admin(dataframe_regression):
     dataframe_regression.check(gdf[["GID_1", "NAME_1", "GID_0", "NAME_0"]])
 
 
+def test_sub_admin_resets_filtered_index():
+    """Filtered single-area results should keep a zero-based index."""
+    gdf = pygadm.Items(admin="SGP.5_1")
+
+    assert gdf.GID_1.tolist() == ["SGP.5_1"]
+    assert list(gdf.index) == [0]
+    assert gdf.index.name is None
+
+
 def test_items_can_subset_columns():
     """Test GeoDataFrame column slicing without raising."""
     gdf = pygadm.Items(admin="IND", content_level=1)
